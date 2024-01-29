@@ -1,6 +1,7 @@
 package nvb.dev.officemanagement;
 
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
+import nvb.dev.officemanagement.model.entity.DocumentEntity;
 
 public class MotherObject {
 
@@ -27,5 +28,20 @@ public class MotherObject {
                 .age(ANY_UPDATED_NUMBER)
                 .build();
     }
+
+    public static DocumentEntity anyValidDocument() {
+        return DocumentEntity.builder()
+                .title(ANY_STRING)
+                .description(ANY_STRING)
+                .build();
+    }
+
+    public static DocumentEntity anyValidUpdatedDocument() {
+        return DocumentEntity.builder()
+                .title(ANY_UPDATED_STRING)
+                .description(ANY_UPDATED_STRING)
+                .build();
+    }
+
 
 }
