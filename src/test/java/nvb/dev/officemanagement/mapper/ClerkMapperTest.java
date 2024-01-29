@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.swing.*;
+
 import static nvb.dev.officemanagement.MotherObject.anyValidClerk;
 import static nvb.dev.officemanagement.MotherObject.anyValidClerkDto;
 import static org.junit.jupiter.api.Assertions.*;
