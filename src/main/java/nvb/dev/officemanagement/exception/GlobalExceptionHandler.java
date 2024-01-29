@@ -20,8 +20,8 @@ import static nvb.dev.officemanagement.constant.ExceptionConstant.*;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(RuntimeException exception) {
+    @ExceptionHandler({EntityNotFoundException.class, NoDataFoundException.class})
+    public ResponseEntity<Object> handleNotFoundExceptions(RuntimeException exception) {
         ErrorResponse errorResponse = new ErrorResponse(List.of(exception.getLocalizedMessage()));
 
         Map<String, Object> body = new HashMap<>();
