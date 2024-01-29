@@ -2,6 +2,7 @@ package nvb.dev.officemanagement;
 
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
+import nvb.dev.officemanagement.model.entity.ManagerEntity;
 
 public class MotherObject {
 
@@ -40,6 +41,24 @@ public class MotherObject {
         return DocumentEntity.builder()
                 .title(ANY_UPDATED_STRING)
                 .description(ANY_UPDATED_STRING)
+                .build();
+    }
+
+    public static ManagerEntity anyValidManager() {
+        return ManagerEntity.builder()
+                .firstName(ANY_STRING)
+                .lastName(ANY_STRING)
+                .department(ANY_STRING)
+                .age(ANY_NUMBER)
+                .build();
+    }
+
+    public static ManagerEntity anyValidUpdatedManager() {
+        return ManagerEntity.builder()
+                .firstName(ANY_UPDATED_STRING)
+                .lastName(ANY_UPDATED_STRING)
+                .department(ANY_UPDATED_STRING)
+                .age(ANY_UPDATED_NUMBER)
                 .build();
     }
 
