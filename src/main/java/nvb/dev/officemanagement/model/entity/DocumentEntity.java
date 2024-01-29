@@ -49,4 +49,8 @@ public class DocumentEntity {
     @JoinColumn(name = "office_id", referencedColumnName = "id")
     private OfficeEntity office;
 
+    public DocumentEntity(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 }

@@ -52,4 +52,10 @@ public class ClerkEntity {
     @ManyToMany(mappedBy = "clerks", cascade = CascadeType.ALL)
     private Set<DocumentEntity> documents = new HashSet<>();
 
+    public ClerkEntity(String firstName, String lastName, String department, Integer age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.age = age;
+    }
 }

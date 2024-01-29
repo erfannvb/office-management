@@ -51,4 +51,10 @@ public class OfficeEntity {
     @OneToMany(mappedBy = "office", cascade = CascadeType.ALL)
     private Set<DocumentEntity> documents = new HashSet<>();
 
+    public OfficeEntity(String officeName, String officeCode, String officePhoneNumber, Address address) {
+        this.officeName = officeName;
+        this.officeCode = officeCode;
+        this.officePhoneNumber = officePhoneNumber;
+        this.address = address;
+    }
 }
