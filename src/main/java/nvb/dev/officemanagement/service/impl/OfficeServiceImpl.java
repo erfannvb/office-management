@@ -76,6 +76,11 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public void deleteById(long id) {
-        officeRepository.deleteById(id);
+        Optional<OfficeEntity> optionalOffice = officeRepository.findById(id);
+        if (optionalOffice.isPresent()) {
+            officeRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException(OfficeEntity.class, id);
+        }
     }
 }

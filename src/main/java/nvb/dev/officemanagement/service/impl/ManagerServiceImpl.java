@@ -77,6 +77,11 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public void deleteById(long id) {
-        managerRepository.deleteById(id);
+        Optional<ManagerEntity> optionalManager = managerRepository.findById(id);
+        if (optionalManager.isPresent()) {
+            managerRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException(ManagerEntity.class, id);
+        }
     }
 }

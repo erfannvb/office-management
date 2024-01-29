@@ -73,6 +73,11 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public void deleteById(long id) {
-        documentRepository.deleteById(id);
+        Optional<DocumentEntity> optionalDocument = documentRepository.findById(id);
+        if (optionalDocument.isPresent()) {
+            documentRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException(DocumentEntity.class, id);
+        }
     }
 }

@@ -77,6 +77,11 @@ public class ClerkServiceImpl implements ClerkService {
 
     @Override
     public void deleteById(long id) {
-        clerkRepository.deleteById(id);
+        Optional<ClerkEntity> optionalClerk = clerkRepository.findById(id);
+        if (optionalClerk.isPresent()) {
+            clerkRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException(ClerkEntity.class, id);
+        }
     }
 }
