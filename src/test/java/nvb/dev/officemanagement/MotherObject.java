@@ -4,6 +4,7 @@ import nvb.dev.officemanagement.model.Address;
 import nvb.dev.officemanagement.model.dto.ClerkDto;
 import nvb.dev.officemanagement.model.dto.DocumentDto;
 import nvb.dev.officemanagement.model.dto.ManagerDto;
+import nvb.dev.officemanagement.model.dto.OfficeDto;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.model.entity.ManagerEntity;
@@ -124,6 +125,19 @@ public class MotherObject {
 
     public static OfficeEntity anyValidOffice() {
         return OfficeEntity.builder()
+                .id(ANY_ID)
+                .officeName(ANY_STRING)
+                .officeCode(ANY_STRING)
+                .officePhoneNumber(ANY_STRING)
+                .address(anyValidAddress())
+                .managers(Set.of(new ManagerEntity()))
+                .clerks(Set.of(new ClerkEntity()))
+                .documents(Set.of(new DocumentEntity()))
+                .build();
+    }
+
+    public static OfficeDto anyValidOfficeDto() {
+        return OfficeDto.builder()
                 .id(ANY_ID)
                 .officeName(ANY_STRING)
                 .officeCode(ANY_STRING)
