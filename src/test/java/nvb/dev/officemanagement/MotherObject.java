@@ -24,6 +24,7 @@ public class MotherObject {
 
     public static ClerkEntity anyValidClerk() {
         return ClerkEntity.builder()
+                .id(ANY_ID)
                 .firstName(ANY_STRING)
                 .lastName(ANY_STRING)
                 .department(ANY_STRING)
