@@ -3,6 +3,7 @@ package nvb.dev.officemanagement;
 import nvb.dev.officemanagement.model.Address;
 import nvb.dev.officemanagement.model.dto.ClerkDto;
 import nvb.dev.officemanagement.model.dto.DocumentDto;
+import nvb.dev.officemanagement.model.dto.ManagerDto;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.model.entity.ManagerEntity;
@@ -87,6 +88,19 @@ public class MotherObject {
 
     public static ManagerEntity anyValidManager() {
         return ManagerEntity.builder()
+                .id(ANY_ID)
+                .firstName(ANY_STRING)
+                .lastName(ANY_STRING)
+                .department(ANY_STRING)
+                .age(ANY_NUMBER)
+                .office(new OfficeEntity())
+                .clerks(Set.of(new ClerkEntity()))
+                .documents(Set.of(new DocumentEntity()))
+                .build();
+    }
+
+    public static ManagerDto anyValidManagerDto() {
+        return ManagerDto.builder()
                 .id(ANY_ID)
                 .firstName(ANY_STRING)
                 .lastName(ANY_STRING)
