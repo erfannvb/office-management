@@ -18,9 +18,27 @@ public class ManagerServiceImpl implements ManagerService {
     private final ManagerRepository managerRepository;
 
     @Override
-    public ManagerEntity createUpdateManager(long id, ManagerEntity manager) {
-        manager.setId(id);
+    public ManagerEntity createManager(ManagerEntity manager) {
         return managerRepository.save(manager);
+    }
+
+    @Override
+    public ManagerEntity updateManager(long id, ManagerEntity manager) {
+        Optional<ManagerEntity> optionalManager = managerRepository.findById(id);
+        if (optionalManager.isPresent()) {
+
+            ManagerEntity currentManager = optionalManager.get();
+
+            currentManager.setFirstName(manager.getFirstName());
+            currentManager.setLastName(manager.getLastName());
+            currentManager.setDepartment(manager.getDepartment());
+            currentManager.setAge(manager.getAge());
+
+            return managerRepository.save(currentManager);
+
+        } else {
+            throw new EntityNotFoundException(ManagerEntity.class, id);
+        }
     }
 
     @Override

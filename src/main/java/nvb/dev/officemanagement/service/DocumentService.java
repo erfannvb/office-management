@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface DocumentService {
 
-    DocumentEntity createUpdateDocument(long id, DocumentEntity document);
+    DocumentEntity createDocument(DocumentEntity document);
+
+    DocumentEntity updateDocument(long id, DocumentEntity document);
 
     List<DocumentEntity> findAll();
 

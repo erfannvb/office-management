@@ -18,9 +18,25 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentRepository documentRepository;
 
     @Override
-    public DocumentEntity createUpdateDocument(long id, DocumentEntity document) {
-        document.setId(id);
+    public DocumentEntity createDocument(DocumentEntity document) {
         return documentRepository.save(document);
+    }
+
+    @Override
+    public DocumentEntity updateDocument(long id, DocumentEntity document) {
+        Optional<DocumentEntity> optionalDocument = documentRepository.findById(id);
+        if (optionalDocument.isPresent()) {
+
+            DocumentEntity currentDoc = optionalDocument.get();
+
+            currentDoc.setTitle(document.getTitle());
+            currentDoc.setDescription(document.getDescription());
+
+            return documentRepository.save(currentDoc);
+
+        } else {
+            throw new EntityNotFoundException(DocumentEntity.class, id);
+        }
     }
 
     @Override

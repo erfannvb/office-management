@@ -18,9 +18,27 @@ public class ClerkServiceImpl implements ClerkService {
     private final ClerkRepository clerkRepository;
 
     @Override
-    public ClerkEntity createUpdateClerk(long id, ClerkEntity clerk) {
-        clerk.setId(id);
+    public ClerkEntity createClerk(ClerkEntity clerk) {
         return clerkRepository.save(clerk);
+    }
+
+    @Override
+    public ClerkEntity updateClerk(long id, ClerkEntity clerk) {
+        Optional<ClerkEntity> optionalClerk = clerkRepository.findById(id);
+        if (optionalClerk.isPresent()) {
+
+            ClerkEntity currentClerk = optionalClerk.get();
+
+            currentClerk.setFirstName(clerk.getFirstName());
+            currentClerk.setLastName(clerk.getLastName());
+            currentClerk.setDepartment(clerk.getDepartment());
+            currentClerk.setAge(clerk.getAge());
+
+            return clerkRepository.save(currentClerk);
+
+        } else {
+            throw new EntityNotFoundException(ClerkEntity.class, id);
+        }
     }
 
     @Override

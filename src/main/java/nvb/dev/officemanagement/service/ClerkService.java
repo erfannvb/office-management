@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface ClerkService {
 
-    ClerkEntity createUpdateClerk(long id, ClerkEntity clerk);
+    ClerkEntity createClerk(ClerkEntity clerk);
+
+    ClerkEntity updateClerk(long id, ClerkEntity clerk);
 
     List<ClerkEntity> findAll();
 

@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface OfficeService {
 
-    OfficeEntity createUpdateOffice(long id, OfficeEntity office);
+    OfficeEntity createOffice(OfficeEntity office);
+
+    OfficeEntity updateOffice(long id, OfficeEntity office);
 
     List<OfficeEntity> findAll();
 

@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface ManagerService {
 
-    ManagerEntity createUpdateManager(long id, ManagerEntity manager);
+    ManagerEntity createManager(ManagerEntity manager);
+
+    ManagerEntity updateManager(long id, ManagerEntity manager);
 
     List<ManagerEntity> findAll();
 

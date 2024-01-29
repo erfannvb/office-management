@@ -18,9 +18,26 @@ public class OfficeServiceImpl implements OfficeService {
     private final OfficeRepository officeRepository;
 
     @Override
-    public OfficeEntity createUpdateOffice(long id, OfficeEntity office) {
-        office.setId(id);
+    public OfficeEntity createOffice(OfficeEntity office) {
         return officeRepository.save(office);
+    }
+
+    @Override
+    public OfficeEntity updateOffice(long id, OfficeEntity office) {
+        Optional<OfficeEntity> optionalOffice = officeRepository.findById(id);
+        if (optionalOffice.isPresent()) {
+
+            OfficeEntity currentOffice = optionalOffice.get();
+
+            currentOffice.setOfficeName(office.getOfficeName());
+            currentOffice.setOfficeCode(office.getOfficeCode());
+            currentOffice.setOfficePhoneNumber(office.getOfficePhoneNumber());
+
+            return officeRepository.save(currentOffice);
+
+        } else {
+            throw new EntityNotFoundException(OfficeEntity.class, id);
+        }
     }
 
     @Override
