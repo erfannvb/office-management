@@ -1,9 +1,12 @@
 package nvb.dev.officemanagement;
 
+import nvb.dev.officemanagement.model.dto.ClerkDto;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.model.entity.ManagerEntity;
 import nvb.dev.officemanagement.model.entity.OfficeEntity;
+
+import java.util.Set;
 
 public class MotherObject {
 
@@ -19,6 +22,21 @@ public class MotherObject {
                 .lastName(ANY_STRING)
                 .department(ANY_STRING)
                 .age(ANY_NUMBER)
+                .office(anyValidOffice())
+                .manager(anyValidManager())
+                .documents(Set.of(anyValidDocument()))
+                .build();
+    }
+
+    public static ClerkDto anyValidClerkDto() {
+        return ClerkDto.builder()
+                .firstName(ANY_STRING)
+                .lastName(ANY_STRING)
+                .department(ANY_STRING)
+                .age(ANY_NUMBER)
+                .office(anyValidOffice())
+                .manager(anyValidManager())
+                .documents(Set.of(anyValidDocument()))
                 .build();
     }
 
