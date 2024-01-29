@@ -1,6 +1,8 @@
 package nvb.dev.officemanagement.service.impl;
 
 import lombok.AllArgsConstructor;
+import nvb.dev.officemanagement.exception.EntityNotFoundException;
+import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.repository.DocumentRepository;
 import nvb.dev.officemanagement.service.DocumentService;
@@ -23,12 +25,15 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<DocumentEntity> findAll() {
-        return documentRepository.findAll();
+        List<DocumentEntity> documentEntityList = documentRepository.findAll();
+        if (documentEntityList.isEmpty()) throw new NoDataFoundException();
+        return documentEntityList;
     }
 
     @Override
     public Optional<DocumentEntity> findDocumentById(long id) {
-        return documentRepository.findById(id);
+        return Optional.ofNullable(documentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(DocumentEntity.class, id)));
     }
 
     @Override
@@ -47,7 +52,7 @@ public class DocumentServiceImpl implements DocumentService {
 
             return documentRepository.save(existingDocument);
 
-        }).orElseThrow();
+        }).orElseThrow(() -> new EntityNotFoundException(DocumentEntity.class, id));
     }
 
     @Override

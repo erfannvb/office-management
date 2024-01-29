@@ -1,6 +1,8 @@
 package nvb.dev.officemanagement.service.impl;
 
 import lombok.AllArgsConstructor;
+import nvb.dev.officemanagement.exception.EntityNotFoundException;
+import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.ManagerEntity;
 import nvb.dev.officemanagement.repository.ManagerRepository;
 import nvb.dev.officemanagement.service.ManagerService;
@@ -23,12 +25,15 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public List<ManagerEntity> findAll() {
-        return managerRepository.findAll();
+        List<ManagerEntity> managerEntityList = managerRepository.findAll();
+        if (managerEntityList.isEmpty()) throw new NoDataFoundException();
+        return managerEntityList;
     }
 
     @Override
     public Optional<ManagerEntity> findManagerById(long id) {
-        return managerRepository.findById(id);
+        return Optional.ofNullable(managerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ManagerEntity.class, id)));
     }
 
     @Override
@@ -49,7 +54,7 @@ public class ManagerServiceImpl implements ManagerService {
 
             return managerRepository.save(manager);
 
-        }).orElseThrow();
+        }).orElseThrow(() -> new EntityNotFoundException(ManagerEntity.class, id));
     }
 
     @Override

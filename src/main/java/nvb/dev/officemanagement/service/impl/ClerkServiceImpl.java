@@ -1,6 +1,8 @@
 package nvb.dev.officemanagement.service.impl;
 
 import lombok.AllArgsConstructor;
+import nvb.dev.officemanagement.exception.EntityNotFoundException;
+import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.repository.ClerkRepository;
 import nvb.dev.officemanagement.service.ClerkService;
@@ -23,12 +25,15 @@ public class ClerkServiceImpl implements ClerkService {
 
     @Override
     public List<ClerkEntity> findAll() {
-        return clerkRepository.findAll();
+        List<ClerkEntity> clerkEntityList = clerkRepository.findAll();
+        if (clerkEntityList.isEmpty()) throw new NoDataFoundException();
+        return clerkEntityList;
     }
 
     @Override
     public Optional<ClerkEntity> findClerkById(long id) {
-        return clerkRepository.findById(id);
+        return Optional.ofNullable(clerkRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ClerkEntity.class, id)));
     }
 
     @Override
@@ -49,7 +54,7 @@ public class ClerkServiceImpl implements ClerkService {
 
             return clerkRepository.save(existingClerk);
 
-        }).orElseThrow();
+        }).orElseThrow(() -> new EntityNotFoundException(ClerkEntity.class, id));
     }
 
     @Override
