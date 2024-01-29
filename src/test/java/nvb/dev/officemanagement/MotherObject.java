@@ -3,6 +3,7 @@ package nvb.dev.officemanagement;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.model.entity.ManagerEntity;
+import nvb.dev.officemanagement.model.entity.OfficeEntity;
 
 public class MotherObject {
 
@@ -62,5 +63,20 @@ public class MotherObject {
                 .build();
     }
 
+    public static OfficeEntity anyValidOffice() {
+        return OfficeEntity.builder()
+                .officeName(ANY_STRING)
+                .officeCode(ANY_STRING)
+                .officePhoneNumber(ANY_STRING)
+                .build();
+    }
+
+    public static OfficeEntity anyValidUpdatedOffice() {
+        return OfficeEntity.builder()
+                .officeName(ANY_UPDATED_STRING)
+                .officeCode(ANY_UPDATED_STRING)
+                .officePhoneNumber(ANY_UPDATED_STRING)
+                .build();
+    }
 
 }
