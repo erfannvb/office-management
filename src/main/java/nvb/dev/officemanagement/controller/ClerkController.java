@@ -29,6 +29,8 @@ public class ClerkController {
 
     @PutMapping(path = "/clerk/{id}")
     public ResponseEntity<ClerkDto> updateClerk(@PathVariable long id, @RequestBody ClerkDto clerkDto) {
+        if (!clerkService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         ClerkEntity clerkEntity = clerkMapper.toClerkEntity(clerkDto);
         ClerkEntity savedClerk = clerkService.updateClerk(id, clerkEntity);
         return new ResponseEntity<>(clerkMapper.toClerkDto(savedClerk), HttpStatus.OK);
@@ -55,7 +57,7 @@ public class ClerkController {
         if (!clerkService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         ClerkEntity clerkEntity = clerkMapper.toClerkEntity(clerkDto);
-        ClerkEntity savedClerk = clerkService.createClerk(clerkEntity);
+        ClerkEntity savedClerk = clerkService.partialUpdate(id, clerkEntity);
 
         return new ResponseEntity<>(clerkMapper.toClerkDto(savedClerk), HttpStatus.OK);
     }
