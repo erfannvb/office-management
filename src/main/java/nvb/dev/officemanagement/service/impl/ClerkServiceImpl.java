@@ -65,9 +65,13 @@ public class ClerkServiceImpl implements ClerkService {
 
     @Override
     public ClerkEntity findClerkByOfficeIdAndManagerId(long officeId, long managerId) {
-        Optional<ClerkEntity> clerkEntity =
+        Optional<ClerkEntity> optionalClerk =
                 clerkRepository.findByOfficeIdAndManagerId(officeId, managerId);
-        return unwrapClerk(clerkEntity, clerkEntity.get().getId());
+        if (optionalClerk.isPresent()) {
+            return optionalClerk.get();
+        } else {
+            throw new NoDataFoundException();
+        }
     }
 
     @Override
@@ -99,11 +103,6 @@ public class ClerkServiceImpl implements ClerkService {
         } else {
             throw new EntityNotFoundException(ClerkEntity.class, id);
         }
-    }
-
-    private static ClerkEntity unwrapClerk(Optional<ClerkEntity> entity, long id) {
-        if (entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException(ClerkEntity.class, id);
     }
 
     private static OfficeEntity unwrapOffice(Optional<OfficeEntity> entity, long id) {
