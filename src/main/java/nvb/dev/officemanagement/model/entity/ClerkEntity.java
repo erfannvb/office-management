@@ -40,11 +40,11 @@ public class ClerkEntity {
     @Column(name = "age", nullable = false)
     private Integer age;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "clerk_id", referencedColumnName = "id")
     private OfficeEntity office;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
     private ManagerEntity manager;
 
