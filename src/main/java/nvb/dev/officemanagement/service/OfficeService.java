@@ -3,6 +3,7 @@ package nvb.dev.officemanagement.service;
 import nvb.dev.officemanagement.model.entity.OfficeEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OfficeService {
 
@@ -10,11 +11,11 @@ public interface OfficeService {
 
     List<OfficeEntity> getAllOffices();
 
-    OfficeEntity getOfficeById(long officeId);
+    Optional<OfficeEntity> getOfficeById(long officeId);
 
-    OfficeEntity getOfficeByOfficeName(String officeName);
+    Optional<OfficeEntity> getOfficeByOfficeName(String officeName);
 
-    OfficeEntity getOfficeByOfficeCode(String officeCode);
+    Optional<OfficeEntity> getOfficeByOfficeCode(String officeCode);
 
     OfficeEntity updateOffice(long officeId, OfficeEntity office);
 

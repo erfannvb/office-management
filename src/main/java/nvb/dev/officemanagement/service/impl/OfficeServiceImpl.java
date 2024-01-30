@@ -33,21 +33,18 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public OfficeEntity getOfficeById(long officeId) {
-        Optional<OfficeEntity> optionalOffice = officeRepository.findById(officeId);
-        return unwrapOffice(optionalOffice, officeId);
+    public Optional<OfficeEntity> getOfficeById(long officeId) {
+        return officeRepository.findById(officeId);
     }
 
     @Override
-    public OfficeEntity getOfficeByOfficeName(String officeName) {
-        Optional<OfficeEntity> optionalOffice = officeRepository.findByOfficeName(officeName);
-        return unwrapOffice(optionalOffice, optionalOffice.get().getId());
+    public Optional<OfficeEntity> getOfficeByOfficeName(String officeName) {
+        return officeRepository.findByOfficeName(officeName);
     }
 
     @Override
-    public OfficeEntity getOfficeByOfficeCode(String officeCode) {
-        Optional<OfficeEntity> optionalOffice = officeRepository.findByOfficeCode(officeCode);
-        return unwrapOffice(optionalOffice, optionalOffice.get().getId());
+    public Optional<OfficeEntity> getOfficeByOfficeCode(String officeCode) {
+        return officeRepository.findByOfficeCode(officeCode);
     }
 
     @Override
