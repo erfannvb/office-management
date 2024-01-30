@@ -32,20 +32,7 @@ public class DocumentEntity {
     private String description;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "document_manager",
-            joinColumns = @JoinColumn(name = "document_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "manager_id", referencedColumnName = "id"))
-    private Set<ManagerEntity> managers = new HashSet<>();
-
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "document_clerk",
-            joinColumns = @JoinColumn(name = "document_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "clerk_id", referencedColumnName = "id"))
-    private Set<ClerkEntity> clerks = new HashSet<>();
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "office_id", referencedColumnName = "id")
     private OfficeEntity office;
 

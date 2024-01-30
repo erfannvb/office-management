@@ -40,17 +40,15 @@ public class ClerkEntity {
     @Column(name = "age", nullable = false)
     private Integer age;
 
-    @ManyToOne
-    @JoinColumn(name = "clerk_id", referencedColumnName = "id")
-    private OfficeEntity office;
-
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "manager_id", referencedColumnName = "id")
     private ManagerEntity manager;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "clerks", cascade = CascadeType.ALL)
-    private Set<DocumentEntity> documents = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "office_id", referencedColumnName = "id")
+    private OfficeEntity office;
 
     public ClerkEntity(String firstName, String lastName, String department, Integer age) {
         this.firstName = firstName;

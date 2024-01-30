@@ -40,17 +40,10 @@ public class ManagerEntity {
     @Column(name = "age", nullable = false)
     private Integer age;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "office_id", referencedColumnName = "id")
     private OfficeEntity office;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
-    private Set<ClerkEntity> clerks = new HashSet<>();
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "managers", cascade = CascadeType.ALL)
-    private Set<DocumentEntity> documents = new HashSet<>();
 
     public ManagerEntity(String firstName, String lastName, String department, Integer age) {
         this.firstName = firstName;
