@@ -13,8 +13,4 @@ public interface ClerkRepository extends JpaRepository<ClerkEntity, Long> {
 
     Optional<ClerkEntity> findByOfficeIdAndManagerId(long officeId, long managerId);
 
-    List<ClerkEntity> findByOfficeId(long officeId);
-
-    List<ClerkEntity> findByManagerId(long managerId);
-
 }
