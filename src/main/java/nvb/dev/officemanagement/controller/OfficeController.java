@@ -44,7 +44,7 @@ public class OfficeController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(path = "/offices/{officeName}")
+    @GetMapping(path = "/officesByName/{officeName}")
     public ResponseEntity<OfficeDto> getOfficeByOfficeName(@PathVariable String officeName) {
         Optional<OfficeEntity> foundOffice = officeService.getOfficeByOfficeName(officeName);
         return foundOffice.map(officeEntity -> {
@@ -53,7 +53,7 @@ public class OfficeController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(path = "/offices/{officeCode}")
+    @GetMapping(path = "/officesByCode/{officeCode}")
     public ResponseEntity<OfficeDto> getOfficeByOfficeCode(@PathVariable String officeCode) {
         Optional<OfficeEntity> foundOffice = officeService.getOfficeByOfficeCode(officeCode);
         return foundOffice.map(officeEntity -> {
