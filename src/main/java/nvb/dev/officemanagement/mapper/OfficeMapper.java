@@ -14,9 +14,6 @@ public interface OfficeMapper {
     @Mapping(source = "officeEntity.officeCode", target = "officeCode")
     @Mapping(source = "officeEntity.officePhoneNumber", target = "officePhoneNumber")
     @Mapping(source = "officeEntity.address", target = "address")
-    @Mapping(source = "officeEntity.managers", target = "managers")
-    @Mapping(source = "officeEntity.clerks", target = "clerks")
-    @Mapping(source = "officeEntity.documents", target = "documents")
     OfficeDto toOfficeDto(OfficeEntity officeEntity);
 
     @Mapping(source = "officeDto.id", target = "id")
@@ -24,9 +21,6 @@ public interface OfficeMapper {
     @Mapping(source = "officeDto.officeCode", target = "officeCode")
     @Mapping(source = "officeDto.officePhoneNumber", target = "officePhoneNumber")
     @Mapping(source = "officeDto.address", target = "address")
-    @Mapping(source = "officeDto.managers", target = "managers")
-    @Mapping(source = "officeDto.clerks", target = "clerks")
-    @Mapping(source = "officeDto.documents", target = "documents")
     OfficeEntity toOfficeEntity(OfficeDto officeDto);
 
 }
