@@ -4,12 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.model.entity.ManagerEntity;
 import nvb.dev.officemanagement.model.entity.OfficeEntity;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,8 +18,6 @@ public class ClerkDto {
     private String lastName;
     private String department;
     private Integer age;
-    private OfficeEntity office;
     private ManagerEntity manager;
-    private Set<DocumentEntity> documents = new HashSet<>();
-
+    private OfficeEntity office;
 }
