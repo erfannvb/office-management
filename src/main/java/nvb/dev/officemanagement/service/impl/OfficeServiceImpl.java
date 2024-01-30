@@ -67,6 +67,11 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
+    public boolean isExists(long officeId) {
+        return officeRepository.existsById(officeId);
+    }
+
+    @Override
     public OfficeEntity partialUpdate(long officeId, OfficeEntity office) {
         office.setId(officeId);
 

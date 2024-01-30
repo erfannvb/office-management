@@ -19,11 +19,12 @@ public interface OfficeService {
 
     OfficeEntity updateOffice(long officeId, OfficeEntity office);
 
+    boolean isExists(long officeId);
+
     OfficeEntity partialUpdate(long officeId, OfficeEntity office);
 
     void deleteOffice(long officeId);
 
     void deleteAllOffices();
-
 
 }
