@@ -103,9 +103,4 @@ public class OfficeServiceImpl implements OfficeService {
             throw new NoDataFoundException();
         }
     }
-
-    private static OfficeEntity unwrapOffice(Optional<OfficeEntity> entity, long officeId) {
-        if (entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException(OfficeEntity.class, officeId);
-    }
 }
