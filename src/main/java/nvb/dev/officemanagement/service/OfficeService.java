@@ -15,8 +15,6 @@ public interface OfficeService {
 
     Optional<OfficeEntity> getOfficeByOfficeName(String officeName);
 
-    Optional<OfficeEntity> getOfficeByOfficeCode(String officeCode);
-
     OfficeEntity updateOffice(long officeId, OfficeEntity office);
 
     boolean isExists(long officeId);

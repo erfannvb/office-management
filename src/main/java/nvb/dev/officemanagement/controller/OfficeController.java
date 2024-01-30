@@ -53,15 +53,6 @@ public class OfficeController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping(path = "/officesByCode/{officeCode}")
-    public ResponseEntity<OfficeDto> getOfficeByOfficeCode(@PathVariable String officeCode) {
-        Optional<OfficeEntity> foundOffice = officeService.getOfficeByOfficeCode(officeCode);
-        return foundOffice.map(officeEntity -> {
-            OfficeDto officeDto = officeMapper.toOfficeDto(officeEntity);
-            return new ResponseEntity<>(officeDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
     @PutMapping(path = "/offices/{officeId}")
     public ResponseEntity<OfficeDto> updateOffice(@PathVariable long officeId,
                                                   @RequestBody @Valid OfficeDto officeDto) {

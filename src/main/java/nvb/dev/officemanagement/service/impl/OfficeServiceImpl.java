@@ -34,17 +34,14 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public Optional<OfficeEntity> getOfficeById(long officeId) {
-        return officeRepository.findById(officeId);
+        return Optional.ofNullable(officeRepository.findById(officeId)
+                .orElseThrow(() -> new EntityNotFoundException(OfficeEntity.class, officeId)));
     }
 
     @Override
     public Optional<OfficeEntity> getOfficeByOfficeName(String officeName) {
-        return officeRepository.findByOfficeName(officeName);
-    }
-
-    @Override
-    public Optional<OfficeEntity> getOfficeByOfficeCode(String officeCode) {
-        return officeRepository.findByOfficeCode(officeCode);
+        return Optional.ofNullable(officeRepository.findByOfficeName(officeName)
+                .orElseThrow(NoDataFoundException::new));
     }
 
     @Override
