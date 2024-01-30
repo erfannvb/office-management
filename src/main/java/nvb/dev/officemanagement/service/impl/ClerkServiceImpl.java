@@ -4,7 +4,11 @@ import lombok.AllArgsConstructor;
 import nvb.dev.officemanagement.exception.EntityNotFoundException;
 import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
+import nvb.dev.officemanagement.model.entity.ManagerEntity;
+import nvb.dev.officemanagement.model.entity.OfficeEntity;
 import nvb.dev.officemanagement.repository.ClerkRepository;
+import nvb.dev.officemanagement.repository.ManagerRepository;
+import nvb.dev.officemanagement.repository.OfficeRepository;
 import nvb.dev.officemanagement.service.ClerkService;
 import org.springframework.stereotype.Service;
 
@@ -16,29 +20,34 @@ import java.util.Optional;
 public class ClerkServiceImpl implements ClerkService {
 
     private final ClerkRepository clerkRepository;
+    private final OfficeRepository officeRepository;
+    private final ManagerRepository managerRepository;
 
     @Override
-    public ClerkEntity createClerk(ClerkEntity clerk) {
+    public ClerkEntity createClerk(ClerkEntity clerk, long officeId, long managerId) {
+        OfficeEntity officeEntity = unwrapOffice(officeRepository.findById(officeId), officeId);
+        ManagerEntity managerEntity = unwrapManager(managerRepository.findById(managerId), managerId);
+
+        clerk.setOffice(officeEntity);
+        clerk.setManager(managerEntity);
+
         return clerkRepository.save(clerk);
     }
 
     @Override
-    public ClerkEntity updateClerk(long id, ClerkEntity clerk) {
-        Optional<ClerkEntity> optionalClerk = clerkRepository.findById(id);
-        if (optionalClerk.isPresent()) {
+    public ClerkEntity updateClerk(ClerkEntity clerk, long officeId, long managerId) {
+        OfficeEntity officeEntity = unwrapOffice(officeRepository.findById(officeId), officeId);
+        ManagerEntity managerEntity = unwrapManager(managerRepository.findById(managerId), managerId);
 
-            ClerkEntity currentClerk = optionalClerk.get();
+        clerk.setFirstName(clerk.getFirstName());
+        clerk.setLastName(clerk.getLastName());
+        clerk.setDepartment(clerk.getDepartment());
+        clerk.setAge(clerk.getAge());
 
-            currentClerk.setFirstName(clerk.getFirstName());
-            currentClerk.setLastName(clerk.getLastName());
-            currentClerk.setDepartment(clerk.getDepartment());
-            currentClerk.setAge(clerk.getAge());
+        clerk.setOffice(officeEntity);
+        clerk.setManager(managerEntity);
 
-            return clerkRepository.save(currentClerk);
-
-        } else {
-            throw new EntityNotFoundException(ClerkEntity.class, id);
-        }
+        return clerkRepository.save(clerk);
     }
 
     @Override
@@ -52,6 +61,33 @@ public class ClerkServiceImpl implements ClerkService {
     public Optional<ClerkEntity> findClerkById(long id) {
         return Optional.ofNullable(clerkRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(ClerkEntity.class, id)));
+    }
+
+    @Override
+    public ClerkEntity findClerkByOfficeIdAndManagerId(long officeId, long managerId) {
+        Optional<ClerkEntity> clerkEntity =
+                clerkRepository.findByOfficeIdAndManagerId(officeId, managerId);
+        return unwrapClerk(clerkEntity, clerkEntity.get().getId());
+    }
+
+    @Override
+    public List<ClerkEntity> getOfficeClerks(long officeId) {
+        Optional<OfficeEntity> optionalOffice = officeRepository.findById(officeId);
+        if (optionalOffice.isPresent()) {
+            return clerkRepository.findByOfficeId(officeId);
+        } else {
+            throw new NoDataFoundException();
+        }
+    }
+
+    @Override
+    public List<ClerkEntity> getManagerClerks(long managerId) {
+        Optional<ManagerEntity> optionalManager = managerRepository.findById(managerId);
+        if (optionalManager.isPresent()) {
+            return clerkRepository.findByManagerId(managerId);
+        } else {
+            throw new NoDataFoundException();
+        }
     }
 
     @Override
@@ -83,5 +119,20 @@ public class ClerkServiceImpl implements ClerkService {
         } else {
             throw new EntityNotFoundException(ClerkEntity.class, id);
         }
+    }
+
+    private static ClerkEntity unwrapClerk(Optional<ClerkEntity> entity, long id) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EntityNotFoundException(ClerkEntity.class, id);
+    }
+
+    private static OfficeEntity unwrapOffice(Optional<OfficeEntity> entity, long id) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EntityNotFoundException(OfficeEntity.class, id);
+    }
+
+    private static ManagerEntity unwrapManager(Optional<ManagerEntity> entity, long id) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EntityNotFoundException(ManagerEntity.class, id);
     }
 }

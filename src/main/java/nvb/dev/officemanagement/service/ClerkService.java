@@ -7,13 +7,19 @@ import java.util.Optional;
 
 public interface ClerkService {
 
-    ClerkEntity createClerk(ClerkEntity clerk);
+    ClerkEntity createClerk(ClerkEntity clerk, long officeId, long managerId);
 
-    ClerkEntity updateClerk(long id, ClerkEntity clerk);
+    ClerkEntity updateClerk(ClerkEntity clerk, long officeId, long managerId);
 
     List<ClerkEntity> findAll();
 
     Optional<ClerkEntity> findClerkById(long id);
+
+    ClerkEntity findClerkByOfficeIdAndManagerId(long officeId, long managerId);
+
+    List<ClerkEntity> getOfficeClerks(long officeId);
+
+    List<ClerkEntity> getManagerClerks(long managerId);
 
     boolean isExists(long id);
 
