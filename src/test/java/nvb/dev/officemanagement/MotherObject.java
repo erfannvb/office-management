@@ -29,8 +29,10 @@ public class MotherObject {
                 .lastName(ANY_STRING)
                 .department(ANY_STRING)
                 .age(ANY_NUMBER)
-                .office(new OfficeEntity())
-                .manager(new ManagerEntity())
+                .office(new OfficeEntity(1L, ANY_STRING, ANY_STRING, ANY_STRING, anyValidAddress(),
+                        Set.of(new ManagerEntity()), Set.of(new ClerkEntity()), Set.of(new DocumentEntity())))
+                .manager(new ManagerEntity(1L, ANY_STRING, ANY_STRING, ANY_STRING, ANY_NUMBER,
+                        new OfficeEntity(), Set.of(new ClerkEntity()), Set.of(new DocumentEntity())))
                 .documents(Set.of(new DocumentEntity()))
                 .build();
     }
