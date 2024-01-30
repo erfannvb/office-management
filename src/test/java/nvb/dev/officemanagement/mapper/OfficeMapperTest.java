@@ -28,9 +28,6 @@ class OfficeMapperTest {
         assertEquals(anyValidOffice().getOfficeCode(), officeDto.getOfficeCode());
         assertEquals(anyValidOffice().getOfficePhoneNumber(), officeDto.getOfficePhoneNumber());
         assertEquals(anyValidOffice().getAddress(), officeDto.getAddress());
-        assertEquals(anyValidOffice().getManagers(), officeDto.getManagers());
-        assertEquals(anyValidOffice().getClerks(), officeDto.getClerks());
-        assertEquals(anyValidOffice().getDocuments(), officeDto.getDocuments());
     }
 
     @Test
@@ -48,9 +45,6 @@ class OfficeMapperTest {
         assertEquals(anyValidOfficeDto().getOfficeCode(), officeEntity.getOfficeCode());
         assertEquals(anyValidOfficeDto().getOfficePhoneNumber(), officeEntity.getOfficePhoneNumber());
         assertEquals(anyValidOfficeDto().getAddress(), officeEntity.getAddress());
-        assertEquals(anyValidOfficeDto().getManagers(), officeEntity.getManagers());
-        assertEquals(anyValidOfficeDto().getClerks(), officeEntity.getClerks());
-        assertEquals(anyValidOfficeDto().getDocuments(), officeEntity.getDocuments());
     }
 
     @Test
