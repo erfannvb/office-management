@@ -6,8 +6,6 @@ import nvb.dev.officemanagement.mapper.ClerkMapper;
 import nvb.dev.officemanagement.model.dto.ClerkDto;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.service.ClerkService;
-import nvb.dev.officemanagement.service.ManagerService;
-import nvb.dev.officemanagement.service.OfficeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +19,6 @@ import java.util.Optional;
 public class ClerkController {
 
     private final ClerkService clerkService;
-    private final OfficeService officeService;
-    private final ManagerService managerService;
     private final ClerkMapper clerkMapper;
 
     @PostMapping(path = "/clerk/office/{officeId}/manager/{managerId}")
