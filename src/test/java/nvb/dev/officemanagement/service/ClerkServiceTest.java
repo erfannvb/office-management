@@ -3,7 +3,11 @@ package nvb.dev.officemanagement.service;
 import nvb.dev.officemanagement.exception.EntityNotFoundException;
 import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
+import nvb.dev.officemanagement.model.entity.ManagerEntity;
+import nvb.dev.officemanagement.model.entity.OfficeEntity;
 import nvb.dev.officemanagement.repository.ClerkRepository;
+import nvb.dev.officemanagement.repository.ManagerRepository;
+import nvb.dev.officemanagement.repository.OfficeRepository;
 import nvb.dev.officemanagement.service.impl.ClerkServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,8 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static nvb.dev.officemanagement.MotherObject.anyValidClerk;
-import static nvb.dev.officemanagement.MotherObject.anyValidUpdatedClerk;
+import static nvb.dev.officemanagement.MotherObject.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -27,15 +30,24 @@ class ClerkServiceTest {
     @Mock
     ClerkRepository clerkRepository;
 
+    @Mock
+    OfficeRepository officeRepository;
+
+    @Mock
+    ManagerRepository managerRepository;
+
     @InjectMocks
     ClerkServiceImpl clerkService;
 
     @Test
     @DisplayName("test that create clerk saves clerk")
     void testThatCreateClerkSavesClerk() {
+        when(officeRepository.findById(anyLong())).thenReturn(Optional.of(anyValidOffice()));
+        when(managerRepository.findById(anyLong())).thenReturn(Optional.of(anyValidManager()));
         when(clerkRepository.save(any(ClerkEntity.class))).thenReturn(anyValidClerk());
 
-        ClerkEntity savedClerk = clerkService.createClerk(anyValidClerk());
+        ClerkEntity savedClerk = clerkService.createClerk(anyValidClerk(), anyValidOffice().getId(),
+                anyValidManager().getId());
 
         assertEquals("dummy", savedClerk.getFirstName());
         assertEquals("dummy", savedClerk.getLastName());
@@ -46,26 +58,62 @@ class ClerkServiceTest {
     @Test
     @DisplayName("test that update clerk updates the existing clerk")
     void testThatUpdateClerkUpdatesTheExistingClerk() {
-        when(clerkRepository.findById(anyLong())).thenReturn(Optional.of(anyValidClerk()));
         when(clerkRepository.save(any(ClerkEntity.class))).thenReturn(anyValidUpdatedClerk());
 
-        ClerkEntity updatedClerk = clerkService.updateClerk(1L, anyValidUpdatedClerk());
+        when(officeRepository.findById(anyLong())).thenReturn(Optional.of(anyValidOffice()));
+        when(managerRepository.findById(anyLong())).thenReturn(Optional.of(anyValidManager()));
+
+        ClerkEntity updatedClerk = clerkService.updateClerk(anyValidUpdatedClerk(),
+                anyValidOffice().getId(), anyValidManager().getId());
 
         assertEquals(anyValidUpdatedClerk().getFirstName(), updatedClerk.getFirstName());
         assertEquals(anyValidUpdatedClerk().getLastName(), updatedClerk.getLastName());
 
-        verify(clerkRepository, atLeastOnce()).findById(anyLong());
+        verify(officeRepository, atLeastOnce()).findById(anyLong());
+        verify(managerRepository, atLeastOnce()).findById(anyLong());
         verify(clerkRepository, atLeastOnce()).save(any(ClerkEntity.class));
     }
 
     @Test
-    @DisplayName("test that update clerk cannot update the non existing clerk")
-    void testThatUpdateClerkCannotUpdateTheNonExistingClerk() {
-        when(clerkRepository.findById(anyLong())).thenReturn(Optional.empty());
+    @DisplayName("test that update clerk cannot update when office does not exist")
+    void testThatUpdateClerkCannotUpdateWhenOfficeDoesNotExist() {
+        when(clerkRepository.save(any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(officeRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> clerkService.updateClerk(1L, anyValidClerk()));
+        assertThrows(EntityNotFoundException.class, () -> clerkService.updateClerk(anyValidClerk(),
+                anyValidOffice().getId(), anyValidManager().getId()));
 
-        verify(clerkRepository, atLeastOnce()).findById(anyLong());
+        verify(officeRepository, atLeastOnce()).findById(anyLong());
+        verify(clerkRepository, never()).save(any(ClerkEntity.class));
+    }
+
+    @Test
+    @DisplayName("test that update clerk cannot update when manager does not exist")
+    void testThatUpdateClerkCannotUpdateWhenManagerDoesNotExist() {
+        when(clerkRepository.save(any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(officeRepository.findById(anyLong())).thenReturn(Optional.of(anyValidOffice()));
+        when(managerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> clerkService.updateClerk(anyValidClerk(),
+                anyValidOffice().getId(), anyValidManager().getId()));
+
+        verify(officeRepository, atLeastOnce()).findById(anyLong());
+        verify(managerRepository, atLeastOnce()).findById(anyLong());
+        verify(clerkRepository, never()).save(any(ClerkEntity.class));
+    }
+
+    @Test
+    @DisplayName("test that update clerk cannot update when office and manager don't exist")
+    void testThatUpdateClerkCannotUpdateWhenOfficeAndManagerDontExist() {
+        when(clerkRepository.save(any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(officeRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(managerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> clerkService.updateClerk(anyValidClerk(),
+                anyValidOffice().getId(), anyValidManager().getId()));
+
+        verify(officeRepository, atLeastOnce()).findById(anyLong());
+        verify(managerRepository, never()).findById(anyLong());
         verify(clerkRepository, never()).save(any(ClerkEntity.class));
     }
 
