@@ -29,11 +29,8 @@ public class MotherObject {
                 .lastName(ANY_STRING)
                 .department(ANY_STRING)
                 .age(ANY_NUMBER)
-                .office(new OfficeEntity(1L, ANY_STRING, ANY_STRING, ANY_STRING, anyValidAddress(),
-                        Set.of(new ManagerEntity()), Set.of(new ClerkEntity()), Set.of(new DocumentEntity())))
-                .manager(new ManagerEntity(1L, ANY_STRING, ANY_STRING, ANY_STRING, ANY_NUMBER,
-                        new OfficeEntity(), Set.of(new ClerkEntity()), Set.of(new DocumentEntity())))
-                .documents(Set.of(new DocumentEntity()))
+                .manager(new ManagerEntity())
+                .office(new OfficeEntity())
                 .build();
     }
 
@@ -44,9 +41,8 @@ public class MotherObject {
                 .lastName(ANY_STRING)
                 .department(ANY_STRING)
                 .age(ANY_NUMBER)
-                .office(new OfficeEntity())
                 .manager(new ManagerEntity())
-                .documents(Set.of(new DocumentEntity()))
+                .office(new OfficeEntity())
                 .build();
     }
 
@@ -57,6 +53,8 @@ public class MotherObject {
                 .lastName(ANY_UPDATED_STRING)
                 .department(ANY_UPDATED_STRING)
                 .age(ANY_UPDATED_NUMBER)
+                .manager(new ManagerEntity())
+                .office(new OfficeEntity())
                 .build();
     }
 
@@ -65,8 +63,6 @@ public class MotherObject {
                 .id(ANY_ID)
                 .title(ANY_STRING)
                 .description(ANY_STRING)
-                .managers(Set.of(new ManagerEntity()))
-                .clerks(Set.of(new ClerkEntity()))
                 .office(new OfficeEntity())
                 .build();
     }
@@ -76,8 +72,6 @@ public class MotherObject {
                 .id(ANY_ID)
                 .title(ANY_STRING)
                 .description(ANY_STRING)
-                .managers(Set.of(new ManagerEntity()))
-                .clerks(Set.of(new ClerkEntity()))
                 .office(new OfficeEntity())
                 .build();
     }
@@ -87,6 +81,7 @@ public class MotherObject {
                 .id(ANY_ID)
                 .title(ANY_UPDATED_STRING)
                 .description(ANY_UPDATED_STRING)
+                .office(new OfficeEntity())
                 .build();
     }
 
@@ -98,8 +93,6 @@ public class MotherObject {
                 .department(ANY_STRING)
                 .age(ANY_NUMBER)
                 .office(new OfficeEntity())
-                .clerks(Set.of(new ClerkEntity()))
-                .documents(Set.of(new DocumentEntity()))
                 .build();
     }
 
@@ -111,8 +104,6 @@ public class MotherObject {
                 .department(ANY_STRING)
                 .age(ANY_NUMBER)
                 .office(new OfficeEntity())
-                .clerks(Set.of(new ClerkEntity()))
-                .documents(Set.of(new DocumentEntity()))
                 .build();
     }
 
@@ -123,6 +114,7 @@ public class MotherObject {
                 .lastName(ANY_UPDATED_STRING)
                 .department(ANY_UPDATED_STRING)
                 .age(ANY_UPDATED_NUMBER)
+                .office(new OfficeEntity())
                 .build();
     }
 
@@ -133,9 +125,6 @@ public class MotherObject {
                 .officeCode(ANY_STRING)
                 .officePhoneNumber(ANY_STRING)
                 .address(anyValidAddress())
-                .managers(Set.of(new ManagerEntity()))
-                .clerks(Set.of(new ClerkEntity()))
-                .documents(Set.of(new DocumentEntity()))
                 .build();
     }
 
@@ -146,9 +135,6 @@ public class MotherObject {
                 .officeCode(ANY_STRING)
                 .officePhoneNumber(ANY_STRING)
                 .address(anyValidAddress())
-                .managers(Set.of(new ManagerEntity()))
-                .clerks(Set.of(new ClerkEntity()))
-                .documents(Set.of(new DocumentEntity()))
                 .build();
     }
 
@@ -158,6 +144,7 @@ public class MotherObject {
                 .officeName(ANY_UPDATED_STRING)
                 .officeCode(ANY_UPDATED_STRING)
                 .officePhoneNumber(ANY_UPDATED_STRING)
+                .address(anyValidAddress())
                 .build();
     }
 
