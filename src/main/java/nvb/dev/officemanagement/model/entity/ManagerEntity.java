@@ -45,7 +45,7 @@ public class ManagerEntity {
     private OfficeEntity office;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "manager")
     private Set<ClerkEntity> clerks = new HashSet<>();
 
     @JsonIgnore
