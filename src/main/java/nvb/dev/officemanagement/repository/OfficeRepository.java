@@ -11,6 +11,4 @@ public interface OfficeRepository extends JpaRepository<OfficeEntity, Long> {
 
     Optional<OfficeEntity> findByOfficeName(String officeName);
 
-    Optional<OfficeEntity> findByOfficeCode(String officeCode);
-
 }
