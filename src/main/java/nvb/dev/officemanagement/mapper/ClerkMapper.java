@@ -14,9 +14,8 @@ public interface ClerkMapper {
     @Mapping(source = "clerkEntity.lastName", target = "lastName")
     @Mapping(source = "clerkEntity.department", target = "department")
     @Mapping(source = "clerkEntity.age", target = "age")
-    @Mapping(source = "clerkEntity.office", target = "office")
     @Mapping(source = "clerkEntity.manager", target = "manager")
-    @Mapping(source = "clerkEntity.documents", target = "documents")
+    @Mapping(source = "clerkEntity.office", target = "office")
     ClerkDto toClerkDto(ClerkEntity clerkEntity);
 
     @Mapping(source = "clerkDto.id", target = "id")
@@ -24,9 +23,8 @@ public interface ClerkMapper {
     @Mapping(source = "clerkDto.lastName", target = "lastName")
     @Mapping(source = "clerkDto.department", target = "department")
     @Mapping(source = "clerkDto.age", target = "age")
-    @Mapping(source = "clerkDto.office", target = "office")
     @Mapping(source = "clerkDto.manager", target = "manager")
-    @Mapping(source = "clerkDto.documents", target = "documents")
+    @Mapping(source = "clerkDto.office", target = "office")
     ClerkEntity toClerkEntity(ClerkDto clerkDto);
 
 }

@@ -15,8 +15,6 @@ public interface ManagerMapper {
     @Mapping(source = "managerEntity.department", target = "department")
     @Mapping(source = "managerEntity.age", target = "age")
     @Mapping(source = "managerEntity.office", target = "office")
-    @Mapping(source = "managerEntity.clerks", target = "clerks")
-    @Mapping(source = "managerEntity.documents", target = "documents")
     ManagerDto toManagerDto(ManagerEntity managerEntity);
 
     @Mapping(source = "managerDto.id", target = "id")
@@ -25,8 +23,6 @@ public interface ManagerMapper {
     @Mapping(source = "managerDto.department", target = "department")
     @Mapping(source = "managerDto.age", target = "age")
     @Mapping(source = "managerDto.office", target = "office")
-    @Mapping(source = "managerDto.clerks", target = "clerks")
-    @Mapping(source = "managerDto.documents", target = "documents")
     ManagerEntity toManagerEntity(ManagerDto managerDto);
 
 }
