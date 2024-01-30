@@ -41,11 +41,11 @@ class ClerkControllerTest {
 
     @Test
     void testThatCreateClerkSuccessfullyReturnsHttp201Created() throws Exception {
-        when(clerkService.createClerk(any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(clerkService.createClerk(any(ClerkEntity.class), anyLong(), anyLong())).thenReturn(anyValidClerk());
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidClerk());
 
-        mockMvc.perform(post("/api/v1/clerk")
+        mockMvc.perform(post("/api/v1/clerk/office/1/manager/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonClerk)
                 ).andExpect(status().isCreated())
@@ -55,12 +55,12 @@ class ClerkControllerTest {
 
     @Test
     void testThatUpdateClerkSuccessfullyReturnsHttp200OkWhenClerkExists() throws Exception {
-        when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(clerkService.updateClerk(any(ClerkEntity.class), anyLong(), anyLong())).thenReturn(anyValidClerk());
         when(clerkService.isExists(anyLong())).thenReturn(true);
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidClerk());
 
-        mockMvc.perform(put("/api/v1/clerk/" + anyValidClerk().getId())
+        mockMvc.perform(put("/api/v1/clerk/office/1/manager/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonClerk)
                 ).andExpect(status().isOk())
@@ -71,11 +71,11 @@ class ClerkControllerTest {
 
     @Test
     void testThatUpdateClerkReturnsHttp404WhenClerkDoesNotExist() throws Exception {
-        when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(clerkService.updateClerk(any(ClerkEntity.class), anyLong(), anyLong())).thenReturn(anyValidClerk());
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidClerk());
 
-        mockMvc.perform(put("/api/v1/clerk/99")
+        mockMvc.perform(put("/api/v1/clerk/office/99/manager/99")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonClerk)
         ).andExpect(status().isNotFound());
@@ -137,7 +137,7 @@ class ClerkControllerTest {
 
     @Test
     void testThatDeleteByIdReturnsHttp204WhenClerkExists() throws Exception {
-        when(clerkService.createClerk(any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(clerkService.createClerk(any(ClerkEntity.class), anyLong(), anyLong())).thenReturn(anyValidClerk());
 
         mockMvc.perform(delete("/api/v1/clerk/" + anyValidClerk().getId())
                 .contentType(MediaType.APPLICATION_JSON)
