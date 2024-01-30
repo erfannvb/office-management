@@ -1,5 +1,6 @@
 package nvb.dev.officemanagement.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import nvb.dev.officemanagement.mapper.ClerkMapper;
 import nvb.dev.officemanagement.model.dto.ClerkDto;
@@ -20,19 +21,24 @@ public class ClerkController {
     private final ClerkService clerkService;
     private final ClerkMapper clerkMapper;
 
-    @PostMapping(path = "/clerk")
-    public ResponseEntity<ClerkDto> createClerk(@RequestBody ClerkDto clerkDto) {
+    @PostMapping(path = "/clerk/office/{officeId}/manager/{managerId}")
+    public ResponseEntity<ClerkDto> createClerk(@PathVariable long officeId,
+                                                @PathVariable long managerId,
+                                                @RequestBody @Valid ClerkDto clerkDto) {
         ClerkEntity clerkEntity = clerkMapper.toClerkEntity(clerkDto);
-        ClerkEntity savedClerk = clerkService.createClerk(clerkEntity);
+        ClerkEntity savedClerk = clerkService.createClerk(clerkEntity, officeId, managerId);
         return new ResponseEntity<>(clerkMapper.toClerkDto(savedClerk), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/clerk/{id}")
-    public ResponseEntity<ClerkDto> updateClerk(@PathVariable long id, @RequestBody ClerkDto clerkDto) {
-        if (!clerkService.isExists(id)) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @PutMapping(path = "/clerk/office/{officeId}/manager/{managerId}")
+    public ResponseEntity<ClerkDto> updateClerk(@RequestBody @Valid ClerkDto clerkDto,
+                                                @PathVariable long officeId,
+                                                @PathVariable long managerId) {
+
+        if (!clerkService.isExists(clerkDto.getId())) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         ClerkEntity clerkEntity = clerkMapper.toClerkEntity(clerkDto);
-        ClerkEntity savedClerk = clerkService.updateClerk(id, clerkEntity);
+        ClerkEntity savedClerk = clerkService.updateClerk(clerkEntity, officeId, managerId);
         return new ResponseEntity<>(clerkMapper.toClerkDto(savedClerk), HttpStatus.OK);
     }
 
@@ -50,6 +56,13 @@ public class ClerkController {
             ClerkDto clerkDto = clerkMapper.toClerkDto(clerkEntity);
             return new ResponseEntity<>(clerkDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping(path = "/clerk/office/{officeId}/manager/{managerId}")
+    public ResponseEntity<ClerkDto> findClerkByOfficeIdAndManagerId(@PathVariable long officeId,
+                                                                    @PathVariable long managerId) {
+        ClerkEntity clerkEntity = clerkService.findClerkByOfficeIdAndManagerId(officeId, managerId);
+        return new ResponseEntity<>(clerkMapper.toClerkDto(clerkEntity), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/clerk/{id}")
