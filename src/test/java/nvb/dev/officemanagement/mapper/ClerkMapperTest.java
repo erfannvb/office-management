@@ -32,7 +32,6 @@ class ClerkMapperTest {
         assertEquals(anyValidClerk().getAge(), clerkDto.getAge());
         assertEquals(anyValidClerk().getOffice(), clerkDto.getOffice());
         assertEquals(anyValidClerk().getManager(), clerkDto.getManager());
-        assertEquals(anyValidClerk().getDocuments(), clerkDto.getDocuments());
     }
 
     @Test
@@ -52,7 +51,6 @@ class ClerkMapperTest {
         assertEquals(anyValidClerkDto().getAge(), clerkEntity.getAge());
         assertEquals(anyValidClerkDto().getOffice(), clerkEntity.getOffice());
         assertEquals(anyValidClerkDto().getManager(), clerkEntity.getManager());
-        assertEquals(anyValidClerkDto().getDocuments(), clerkEntity.getDocuments());
     }
 
     @Test

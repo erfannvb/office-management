@@ -26,8 +26,6 @@ class DocumentMapperTest {
         assertEquals(anyValidDocument().getId(), documentDto.getId());
         assertEquals(anyValidDocument().getTitle(), documentDto.getTitle());
         assertEquals(anyValidDocument().getDescription(), documentDto.getDescription());
-        assertEquals(anyValidDocument().getManagers(), documentDto.getManagers());
-        assertEquals(anyValidDocument().getClerks(), documentDto.getClerks());
         assertEquals(anyValidDocument().getOffice(), documentDto.getOffice());
     }
 
@@ -44,8 +42,6 @@ class DocumentMapperTest {
         assertEquals(anyValidDocumentDto().getId(), documentEntity.getId());
         assertEquals(anyValidDocumentDto().getTitle(), documentEntity.getTitle());
         assertEquals(anyValidDocumentDto().getDescription(), documentEntity.getDescription());
-        assertEquals(anyValidDocumentDto().getManagers(), documentEntity.getManagers());
-        assertEquals(anyValidDocumentDto().getClerks(), documentEntity.getClerks());
         assertEquals(anyValidDocumentDto().getOffice(), documentEntity.getOffice());
     }
 

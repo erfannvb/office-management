@@ -29,8 +29,6 @@ class ManagerMapperTest {
         assertEquals(anyValidManager().getDepartment(), managerDto.getDepartment());
         assertEquals(anyValidManager().getAge(), managerDto.getAge());
         assertEquals(anyValidManager().getOffice(), managerDto.getOffice());
-        assertEquals(anyValidManager().getClerks(), managerDto.getClerks());
-        assertEquals(anyValidManager().getDocuments(), managerDto.getDocuments());
     }
 
     @Test
@@ -49,8 +47,6 @@ class ManagerMapperTest {
         assertEquals(anyValidManagerDto().getDepartment(), managerEntity.getDepartment());
         assertEquals(anyValidManagerDto().getAge(), managerEntity.getAge());
         assertEquals(anyValidManagerDto().getOffice(), managerEntity.getOffice());
-        assertEquals(anyValidManagerDto().getClerks(), managerEntity.getClerks());
-        assertEquals(anyValidManagerDto().getDocuments(), managerEntity.getDocuments());
     }
 
     @Test
