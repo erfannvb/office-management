@@ -6,6 +6,8 @@ import nvb.dev.officemanagement.mapper.ClerkMapper;
 import nvb.dev.officemanagement.model.dto.ClerkDto;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.service.ClerkService;
+import nvb.dev.officemanagement.service.ManagerService;
+import nvb.dev.officemanagement.service.OfficeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class ClerkController {
 
     private final ClerkService clerkService;
+    private final OfficeService officeService;
+    private final ManagerService managerService;
     private final ClerkMapper clerkMapper;
 
     @PostMapping(path = "/clerk/office/{officeId}/manager/{managerId}")
@@ -56,13 +60,6 @@ public class ClerkController {
             ClerkDto clerkDto = clerkMapper.toClerkDto(clerkEntity);
             return new ResponseEntity<>(clerkDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @GetMapping(path = "/clerk/office/{officeId}/manager/{managerId}")
-    public ResponseEntity<ClerkDto> findClerkByOfficeIdAndManagerId(@PathVariable long officeId,
-                                                                    @PathVariable long managerId) {
-        ClerkEntity clerkEntity = clerkService.findClerkByOfficeIdAndManagerId(officeId, managerId);
-        return new ResponseEntity<>(clerkMapper.toClerkDto(clerkEntity), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/clerk/{id}")

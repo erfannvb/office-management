@@ -64,17 +64,6 @@ public class ClerkServiceImpl implements ClerkService {
     }
 
     @Override
-    public ClerkEntity findClerkByOfficeIdAndManagerId(long officeId, long managerId) {
-        Optional<ClerkEntity> optionalClerk =
-                clerkRepository.findByOfficeIdAndManagerId(officeId, managerId);
-        if (optionalClerk.isPresent()) {
-            return optionalClerk.get();
-        } else {
-            throw new NoDataFoundException();
-        }
-    }
-
-    @Override
     public boolean isExists(long id) {
         return clerkRepository.existsById(id);
     }

@@ -15,8 +15,6 @@ public interface ClerkService {
 
     Optional<ClerkEntity> findClerkById(long id);
 
-    ClerkEntity findClerkByOfficeIdAndManagerId(long officeId, long managerId);
-
     boolean isExists(long id);
 
     ClerkEntity partialUpdate(long id, ClerkEntity clerk);
