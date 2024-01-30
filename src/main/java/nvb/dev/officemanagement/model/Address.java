@@ -14,10 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Address {
 
-    @NotEmpty(message = "city cannot be empty.")
     private String city;
-
-    @NotEmpty(message = "country cannot be empty.")
     private String country;
 
 }
