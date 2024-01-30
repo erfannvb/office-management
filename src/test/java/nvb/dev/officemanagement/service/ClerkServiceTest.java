@@ -162,6 +162,32 @@ class ClerkServiceTest {
     }
 
     @Test
+    @DisplayName("test that find clerk by office id and manager id returns clerk")
+    void testThatFindClerkByOfficeIdAndManagerIdReturnsClerk() {
+        when(clerkRepository.findByOfficeIdAndManagerId(anyLong(), anyLong())).thenReturn(Optional.of(anyValidClerk()));
+
+        ClerkEntity result = clerkService
+                .findClerkByOfficeIdAndManagerId(anyValidOffice().getId(), anyValidManager().getId());
+
+        assertEquals("dummy", result.getFirstName());
+        assertEquals("dummy", result.getLastName());
+
+        verify(clerkRepository, atLeastOnce()).findByOfficeIdAndManagerId(anyLong(), anyLong());
+    }
+
+    @Test
+    @DisplayName("test that find clerk by office id and manager id returns nothing")
+    void testThatFindClerkByOfficeIdAndManagerIdReturnsNothing() {
+        when(clerkRepository.findByOfficeIdAndManagerId(anyLong(), anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(NoDataFoundException.class, () ->
+                clerkService.findClerkByOfficeIdAndManagerId(anyValidOffice().getId(),
+                        anyValidManager().getId()));
+
+        verify(clerkRepository, atLeastOnce()).findByOfficeIdAndManagerId(anyLong(), anyLong());
+    }
+
+    @Test
     @DisplayName("test that is exists returns true")
     void testThatIsExistsReturnsTrue() {
         when(clerkRepository.existsById(anyLong())).thenReturn(true);
