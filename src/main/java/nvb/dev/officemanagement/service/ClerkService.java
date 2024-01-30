@@ -17,10 +17,6 @@ public interface ClerkService {
 
     ClerkEntity findClerkByOfficeIdAndManagerId(long officeId, long managerId);
 
-    List<ClerkEntity> getOfficeClerks(long officeId);
-
-    List<ClerkEntity> getManagerClerks(long managerId);
-
     boolean isExists(long id);
 
     ClerkEntity partialUpdate(long id, ClerkEntity clerk);
