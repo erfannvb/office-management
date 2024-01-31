@@ -27,9 +27,8 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public ManagerEntity getManagerById(long managerId) {
-        Optional<ManagerEntity> optionalManager = managerRepository.findById(managerId);
-        return unwrapManager(optionalManager, managerId);
+    public Optional<ManagerEntity> getManagerById(long managerId) {
+        return managerRepository.findById(managerId);
     }
 
     @Override
@@ -108,10 +107,5 @@ public class ManagerServiceImpl implements ManagerService {
     private static OfficeEntity unwrapOffice(Optional<OfficeEntity> entity, long officeId) {
         if (entity.isPresent()) return entity.get();
         else throw new EntityNotFoundException(OfficeEntity.class, officeId);
-    }
-
-    private static ManagerEntity unwrapManager(Optional<ManagerEntity> entity, long managerId) {
-        if (entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException(ManagerEntity.class, managerId);
     }
 }
