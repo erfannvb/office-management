@@ -200,6 +200,72 @@ class OfficeControllerTest {
     }
 
     @Test
+    void testThatUpdateOfficeReturnsHttp400BadRequestWhenOfficeNameIsEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficeName("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(put("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testThatUpdateOfficeReturnsHttp400BadRequestWhenOfficeCodeIsEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficeCode("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(put("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testThatUpdateOfficeReturnsHttp400BadRequestWhenOfficePhoneNumberIsEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficePhoneNumber("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(put("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testThatUpdateOfficeReturnsHttp400BadRequestWhenAllTheFieldsAreEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficePhoneNumber("");
+        officeEntity.setOfficeName("");
+        officeEntity.setOfficeCode("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(put("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
     void testThatPartialUpdateSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.partialUpdate(anyLong(), any(OfficeEntity.class))).thenReturn(anyValidUpdatedOffice());
         when(officeService.isExists(anyLong())).thenReturn(true);
@@ -224,6 +290,72 @@ class OfficeControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonOffice)
         ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testThatPartialUpdateReturnsHttp400BadRequestWhenOfficeNameIsEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficeName("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(patch("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testThatPartialUpdateReturnsHttp400BadRequestWhenOfficeCodeIsEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficeCode("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(patch("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testThatPartialUpdateReturnsHttp400BadRequestWhenOfficePhoneNumberIsEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficePhoneNumber("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(patch("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void testThatPartialUpdateReturnsHttp400BadRequestWhenAllTheFieldsAreEmpty() throws Exception {
+        OfficeEntity officeEntity = anyValidOffice();
+        officeEntity.setOfficeName("");
+        officeEntity.setOfficePhoneNumber("");
+        officeEntity.setOfficeCode("");
+
+        when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(officeService.isExists(anyLong())).thenReturn(true);
+
+        String jsonOffice = objectMapper.writeValueAsString(officeEntity);
+
+        mockMvc.perform(patch("/api/v1/offices/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonOffice)
+        ).andExpect(status().isBadRequest());
     }
 
     @Test
