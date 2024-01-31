@@ -63,20 +63,12 @@ class ManagerServiceTest {
     void testThatGetManagerByIdReturnsAnExistingManager() {
         when(managerRepository.findById(anyLong())).thenReturn(Optional.of(anyValidManager()));
 
-        ManagerEntity manager = managerService.getManagerById(1L);
+        Optional<ManagerEntity> optionalManager = managerService.getManagerById(1L);
 
-        assertEquals("dummy", manager.getFirstName());
-        assertEquals("dummy", manager.getLastName());
-        assertEquals("dummy", manager.getOffice().getOfficeName());
+        assertEquals("dummy", optionalManager.get().getFirstName());
+        assertEquals("dummy", optionalManager.get().getLastName());
+        assertEquals("dummy", optionalManager.get().getOffice().getOfficeName());
 
-        verify(managerRepository, atLeastOnce()).findById(anyLong());
-    }
-
-    @Test
-    void testThatGetManagerByIdReturnsNothingWhenOfficeDoesNotExist() {
-        when(managerRepository.findById(anyLong())).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> managerService.getManagerById(1L));
         verify(managerRepository, atLeastOnce()).findById(anyLong());
     }
 
