@@ -53,7 +53,6 @@ public class ManagerServiceImpl implements ManagerService {
             currentManager.setLastName(manager.getLastName());
             currentManager.setDepartment(manager.getDepartment());
             currentManager.setAge(manager.getAge());
-            currentManager.setOffice(manager.getOffice());
 
             return managerRepository.save(currentManager);
 
@@ -72,7 +71,6 @@ public class ManagerServiceImpl implements ManagerService {
             Optional.ofNullable(manager.getLastName()).ifPresent(existingManager::setLastName);
             Optional.ofNullable(manager.getDepartment()).ifPresent(existingManager::setDepartment);
             Optional.ofNullable(manager.getAge()).ifPresent(existingManager::setAge);
-            Optional.ofNullable(manager.getOffice()).ifPresent(existingManager::setOffice);
 
             return managerRepository.save(existingManager);
 
