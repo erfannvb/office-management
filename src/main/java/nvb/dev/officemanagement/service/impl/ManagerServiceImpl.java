@@ -48,7 +48,6 @@ public class ManagerServiceImpl implements ManagerService {
 
             ManagerEntity currentManager = optionalManager.get();
 
-            currentManager.setId(manager.getId());
             currentManager.setFirstName(manager.getFirstName());
             currentManager.setLastName(manager.getLastName());
             currentManager.setDepartment(manager.getDepartment());

@@ -49,7 +49,6 @@ public class ClerkServiceImpl implements ClerkService {
 
             ClerkEntity currentClerk = optionalClerk.get();
 
-            currentClerk.setId(clerk.getId());
             currentClerk.setFirstName(clerk.getFirstName());
             currentClerk.setLastName(clerk.getLastName());
             currentClerk.setDepartment(clerk.getDepartment());
