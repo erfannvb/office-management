@@ -92,7 +92,7 @@ public class MotherObject {
                 .lastName(ANY_STRING)
                 .department(ANY_STRING)
                 .age(ANY_NUMBER)
-                .office(new OfficeEntity())
+                .office(new OfficeEntity(ANY_ID, ANY_STRING, ANY_STRING, ANY_STRING, anyValidAddress()))
                 .build();
     }
 
@@ -114,7 +114,8 @@ public class MotherObject {
                 .lastName(ANY_UPDATED_STRING)
                 .department(ANY_UPDATED_STRING)
                 .age(ANY_UPDATED_NUMBER)
-                .office(new OfficeEntity())
+                .office(new OfficeEntity(ANY_ID, ANY_UPDATED_STRING,
+                        ANY_UPDATED_STRING, ANY_UPDATED_STRING, anyValidAddress()))
                 .build();
     }
 
