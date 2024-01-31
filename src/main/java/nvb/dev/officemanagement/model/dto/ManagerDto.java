@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nvb.dev.officemanagement.model.entity.OfficeEntity;
+import org.hibernate.validator.constraints.Range;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class ManagerDto {
     @NotEmpty(message = "department cannot be empty.")
     private String department;
 
-    @NotEmpty(message = "age cannot be empty.")
+    @Range(min = 18, max = 55)
     private Integer age;
 
     private OfficeEntity office;
