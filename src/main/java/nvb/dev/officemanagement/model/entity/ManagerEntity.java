@@ -41,7 +41,7 @@ public class ManagerEntity {
     private Integer age;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "office_id", referencedColumnName = "id")
     private OfficeEntity office;
 
