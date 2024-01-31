@@ -11,6 +11,9 @@ import java.util.Optional;
 @Repository
 public interface ClerkRepository extends JpaRepository<ClerkEntity, Long> {
 
-    Optional<ClerkEntity> findByOfficeIdAndManagerId(long officeId, long managerId);
+    List<ClerkEntity> findByOfficeIdAndManagerId(long officeId, long managerId);
+
+    @Transactional
+    void deleteByManagerId(long managerId);
 
 }
