@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static nvb.dev.officemanagement.MotherObject.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -61,24 +60,24 @@ class ManagerServiceTest {
     }
 
     @Test
-    void testThatGetManagerByOfficeIdReturnsAnExistingManager() {
-        when(managerRepository.findByOfficeId(anyLong())).thenReturn(Optional.of(anyValidManager()));
+    void testThatGetManagerByIdReturnsAnExistingManager() {
+        when(managerRepository.findById(anyLong())).thenReturn(Optional.of(anyValidManager()));
 
-        ManagerEntity manager = managerService.getManagerByOfficeId(1L);
+        ManagerEntity manager = managerService.getManagerById(1L);
 
         assertEquals("dummy", manager.getFirstName());
         assertEquals("dummy", manager.getLastName());
         assertEquals("dummy", manager.getOffice().getOfficeName());
 
-        verify(managerRepository, atLeastOnce()).findByOfficeId(anyLong());
+        verify(managerRepository, atLeastOnce()).findById(anyLong());
     }
 
     @Test
-    void testThatGetManagerByOfficeIdReturnsNothingWhenOfficeDoesNotExist() {
-        when(managerRepository.findByOfficeId(anyLong())).thenReturn(Optional.empty());
+    void testThatGetManagerByIdReturnsNothingWhenOfficeDoesNotExist() {
+        when(managerRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> managerService.getManagerByOfficeId(1L));
-        verify(managerRepository, atLeastOnce()).findByOfficeId(anyLong());
+        assertThrows(EntityNotFoundException.class, () -> managerService.getManagerById(1L));
+        verify(managerRepository, atLeastOnce()).findById(anyLong());
     }
 
     @Test
@@ -199,6 +198,26 @@ class ManagerServiceTest {
 
         verify(officeRepository, atLeastOnce()).findById(anyLong());
         verify(managerRepository, never()).deleteByOfficeId(anyLong());
+    }
+
+    @Test
+    void testThatIsExistsReturnsTrue() {
+        when(managerRepository.existsById(anyLong())).thenReturn(true);
+
+        boolean exists = managerService.isExists(1L);
+
+        assertTrue(exists);
+        verify(managerRepository, atLeastOnce()).existsById(anyLong());
+    }
+
+    @Test
+    void testThatIsExistsReturnsFalse() {
+        when(managerRepository.existsById(anyLong())).thenReturn(false);
+
+        boolean exists = managerService.isExists(1L);
+
+        assertFalse(exists);
+        verify(managerRepository, atLeastOnce()).existsById(anyLong());
     }
 
 }
