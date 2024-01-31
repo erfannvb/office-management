@@ -8,7 +8,7 @@ public interface ManagerService {
 
     ManagerEntity createManager(long officeId, ManagerEntity manager);
 
-    ManagerEntity getManagerByOfficeId(long officeId);
+    ManagerEntity getManagerById(long managerId);
 
     List<ManagerEntity> getAllManagersByOfficeId(long officeId);
 
@@ -19,5 +19,7 @@ public interface ManagerService {
     void deleteManager(long managerId);
 
     void deleteAllManagersOfOffice(long officeId);
+
+    boolean isExists(long officeId);
 
 }
