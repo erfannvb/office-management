@@ -122,6 +122,14 @@ class ClerkServiceTest {
     }
 
     @Test
+    void testThatGetClerkByIdReturnsNothing() {
+        when(clerkRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> clerkService.getClerkById(1L));
+        verify(clerkRepository, atLeastOnce()).findById(anyLong());
+    }
+
+    @Test
     void testThatUpdateClerkUpdatesTheExistingClerk() {
         when(clerkRepository.findById(anyLong())).thenReturn(Optional.of(anyValidClerk()));
         when(clerkRepository.save(any(ClerkEntity.class))).thenReturn(anyValidUpdatedClerk());

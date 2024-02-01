@@ -73,6 +73,14 @@ class ManagerServiceTest {
     }
 
     @Test
+    void testThatGetManagerByIdReturnsNothing() {
+        when(managerRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> managerService.getManagerById(1L));
+        verify(managerRepository, atLeastOnce()).findById(anyLong());
+    }
+
+    @Test
     void testThatGetAllManagersByOfficeIdReturnsExistingManagers() {
         when(officeRepository.findById(anyLong())).thenReturn(Optional.of(anyValidOffice()));
         when(managerRepository.findAllByOfficeId(anyLong()))
