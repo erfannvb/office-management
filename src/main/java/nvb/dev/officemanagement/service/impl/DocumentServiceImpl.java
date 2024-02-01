@@ -90,7 +90,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public boolean isExists(long documentId) {
-        return false;
+        return documentRepository.existsById(documentId);
     }
 
     private static OfficeEntity unwrapOffice(Optional<OfficeEntity> entity, long officeId) {
