@@ -13,8 +13,8 @@ import static nvb.dev.officemanagement.security.UserPermission.*;
 @Getter
 public enum UserRole {
 
-    MANAGER(Set.of(ADMIN_WRITE, ADMIN_READ)),
-    CLERK(Set.of(USER_READ));
+    ADMIN(Set.of(ADMIN_WRITE, ADMIN_READ)),
+    USER(Set.of(USER_READ));
 
     private final Set<UserPermission> permissions;
 
