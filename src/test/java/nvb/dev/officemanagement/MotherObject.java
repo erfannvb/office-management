@@ -160,6 +160,7 @@ public class MotherObject {
         return UserEntity.builder()
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .role(ANY_STRING)
                 .build();
     }
 
@@ -167,6 +168,7 @@ public class MotherObject {
         return UserDto.builder()
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .role(ANY_STRING)
                 .build();
     }
 
@@ -174,6 +176,7 @@ public class MotherObject {
         return UserEntity.builder()
                 .username(ANY_UPDATED_STRING)
                 .password(ANY_UPDATED_STRING)
+                .role(ANY_UPDATED_STRING)
                 .build();
     }
 
