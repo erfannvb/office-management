@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static nvb.dev.officemanagement.MotherObject.anyValidDocument;
+import static nvb.dev.officemanagement.MotherObject.anyValidUpdatedDocument;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -136,7 +137,8 @@ class DocumentControllerTest {
 
     @Test
     void testThatUpdateDocumentSuccessfullyReturnsHttp200Ok() throws Exception {
-        when(documentService.updateDocument(anyLong(), any(DocumentEntity.class))).thenReturn(anyValidDocument());
+        when(documentService.updateDocument(anyLong(), any(DocumentEntity.class)))
+                .thenReturn(anyValidUpdatedDocument());
         when(documentService.isExists(anyLong())).thenReturn(true);
 
         String jsonDoc = objectMapper.writeValueAsString(anyValidDocument());
@@ -149,7 +151,8 @@ class DocumentControllerTest {
 
     @Test
     void testThatUpdateDocumentReturnsHttp404NotFound() throws Exception {
-        when(documentService.updateDocument(anyLong(), any(DocumentEntity.class))).thenReturn(anyValidDocument());
+        when(documentService.updateDocument(anyLong(), any(DocumentEntity.class)))
+                .thenReturn(anyValidUpdatedDocument());
         when(documentService.isExists(anyLong())).thenReturn(false);
 
         String jsonDoc = objectMapper.writeValueAsString(anyValidDocument());
