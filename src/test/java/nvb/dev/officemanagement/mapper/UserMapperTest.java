@@ -25,6 +25,7 @@ class UserMapperTest {
 
         assertEquals(anyValidUser().getUsername(), userDto.getUsername());
         assertEquals(anyValidUser().getPassword(), userDto.getPassword());
+        assertEquals(anyValidUser().getRole(), userDto.getRole());
     }
 
     @Test
@@ -39,6 +40,7 @@ class UserMapperTest {
 
         assertEquals(anyValidUserDto().getUsername(), userEntity.getUsername());
         assertEquals(anyValidUserDto().getPassword(), userEntity.getPassword());
+        assertEquals(anyValidUserDto().getRole(), userEntity.getRole());
     }
 
     @Test
