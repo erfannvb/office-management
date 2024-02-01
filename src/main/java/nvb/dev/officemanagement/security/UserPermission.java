@@ -7,9 +7,9 @@ import lombok.Getter;
 @Getter
 public enum UserPermission {
 
-    MANAGER_WRITE("manager:write"),
-    MANAGER_READ("manager:read"),
-    CLERK_READ("clerk:read");
+    ADMIN_WRITE("admin:write"),
+    ADMIN_READ("admin:read"),
+    USER_READ("user:read");
 
     private final String permission;
 
