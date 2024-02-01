@@ -39,7 +39,8 @@ public class ClerkServiceImpl implements ClerkService {
 
     @Override
     public Optional<ClerkEntity> getClerkById(long clerkId) {
-        return clerkRepository.findById(clerkId);
+        return Optional.ofNullable(clerkRepository.findById(clerkId)
+                .orElseThrow(() -> new EntityNotFoundException(ClerkEntity.class, clerkId)));
     }
 
     @Override

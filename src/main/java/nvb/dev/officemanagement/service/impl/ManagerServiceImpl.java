@@ -28,7 +28,8 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Optional<ManagerEntity> getManagerById(long managerId) {
-        return managerRepository.findById(managerId);
+        return Optional.ofNullable(managerRepository.findById(managerId)
+                .orElseThrow(() -> new EntityNotFoundException(ManagerEntity.class, managerId)));
     }
 
     @Override
