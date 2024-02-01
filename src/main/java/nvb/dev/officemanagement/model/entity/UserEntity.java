@@ -27,4 +27,8 @@ public class UserEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @NotEmpty(message = "role cannot be empty.")
+    @Column(name = "role", nullable = false)
+    private String role;
+
 }

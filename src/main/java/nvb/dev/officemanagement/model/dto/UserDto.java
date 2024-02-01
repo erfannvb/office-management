@@ -20,4 +20,7 @@ public class UserDto {
     @NotEmpty(message = "password cannot be empty.")
     private String password;
 
+    @NotEmpty(message = "role cannot be empty.")
+    private String role;
+
 }
