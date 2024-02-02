@@ -21,8 +21,7 @@ import java.util.Optional;
 import static nvb.dev.officemanagement.MotherObject.anyValidDocument;
 import static nvb.dev.officemanagement.MotherObject.anyValidUpdatedDocument;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -126,6 +125,28 @@ class DocumentControllerTest {
         when(documentService.getDocumentById(anyLong())).thenReturn(Optional.empty());
 
         mockMvc.perform(get("/api/v1/docManagement/documents/99")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
+        ).andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testThatGetDocumentByTitleSuccessfullyReturnsHttp200Ok() throws Exception {
+        when(documentService.getDocumentByTitle(anyString())).thenReturn(Optional.of(anyValidDocument()));
+
+        mockMvc.perform(get("/api/v1/docManagement/documents?title=dummy")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
+                ).andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("dummy"))
+                .andExpect(jsonPath("$.description").value("dummy"));
+    }
+
+    @Test
+    void testThatGetDocumentByTitleReturnsHttp404NotFound() throws Exception {
+        when(documentService.getDocumentByTitle(anyString())).thenReturn(Optional.empty());
+
+        mockMvc.perform(get("/api/v1/docManagement/documents?title=dummy")
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());

@@ -1,6 +1,7 @@
 package nvb.dev.officemanagement.service;
 
 import nvb.dev.officemanagement.exception.EntityNotFoundException;
+import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.repository.DocumentRepository;
 import nvb.dev.officemanagement.repository.OfficeRepository;
@@ -77,6 +78,26 @@ class DocumentServiceTest {
 
         assertThrows(EntityNotFoundException.class, () -> documentService.getDocumentById(1L));
         verify(documentRepository, atLeastOnce()).findById(anyLong());
+    }
+
+    @Test
+    void testThatGetDocumentByTitleReturnsTheExistingDocument() {
+        when(documentRepository.findByTitle(anyString())).thenReturn(Optional.of(anyValidDocument()));
+
+        Optional<DocumentEntity> document = documentService.getDocumentByTitle("dummy");
+
+        assertEquals("dummy", document.get().getTitle());
+        assertEquals("dummy", document.get().getDescription());
+
+        verify(documentRepository, atLeastOnce()).findByTitle(anyString());
+    }
+
+    @Test
+    void testThatGetDocumentByTitleReturnsNothing() {
+        when(documentRepository.findByTitle(anyString())).thenReturn(Optional.empty());
+
+        assertThrows(NoDataFoundException.class, () -> documentService.getDocumentByTitle("dummy"));
+        verify(documentRepository, atLeastOnce()).findByTitle(anyString());
     }
 
     @Test
