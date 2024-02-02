@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,8 +53,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(anyValidDocument());
 
-        mockMvc.perform(post("/api/v1/offices/1/documents")
+        mockMvc.perform(post("/api/v1/docManagement/offices/1/documents")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                         .content(jsonDoc)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -69,8 +71,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/documents")
+        mockMvc.perform(post("/api/v1/docManagement/offices/1/documents")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -84,8 +87,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/documents")
+        mockMvc.perform(post("/api/v1/docManagement/offices/1/documents")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -100,8 +104,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/documents")
+        mockMvc.perform(post("/api/v1/docManagement/offices/1/documents")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -110,8 +115,9 @@ class DocumentControllerTest {
     void testThatGetDocumentByIdSuccessfullyReturnsHttp200Ok() throws Exception {
         when(documentService.getDocumentById(anyLong())).thenReturn(Optional.of(anyValidDocument()));
 
-        mockMvc.perform(get("/api/v1/documents/1")
+        mockMvc.perform(get("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isOk());
     }
 
@@ -119,8 +125,9 @@ class DocumentControllerTest {
     void testThatGetDocumentByIdReturnsHttp404NotFound() throws Exception {
         when(documentService.getDocumentById(anyLong())).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/v1/documents/99")
+        mockMvc.perform(get("/api/v1/docManagement/documents/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -130,8 +137,9 @@ class DocumentControllerTest {
                 List.of(anyValidDocument(), anyValidDocument())
         );
 
-        mockMvc.perform(get("/api/v1/offices/1/documents")
+        mockMvc.perform(get("/api/v1/docManagement/offices/1/documents")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isOk());
     }
 
@@ -143,8 +151,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(anyValidDocument());
 
-        mockMvc.perform(put("/api/v1/documents/1")
+        mockMvc.perform(put("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isOk());
     }
@@ -157,8 +166,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(anyValidDocument());
 
-        mockMvc.perform(put("/api/v1/documents/1")
+        mockMvc.perform(put("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isNotFound());
     }
@@ -173,8 +183,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(put("/api/v1/documents/1")
+        mockMvc.perform(put("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -189,8 +200,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(put("/api/v1/documents/1")
+        mockMvc.perform(put("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -206,8 +218,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(put("/api/v1/documents/1")
+        mockMvc.perform(put("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -219,8 +232,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(anyValidDocument());
 
-        mockMvc.perform(patch("/api/v1/documents/1")
+        mockMvc.perform(patch("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isOk());
     }
@@ -232,8 +246,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(anyValidDocument());
 
-        mockMvc.perform(patch("/api/v1/documents/1")
+        mockMvc.perform(patch("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isNotFound());
     }
@@ -248,8 +263,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(patch("/api/v1/documents/1")
+        mockMvc.perform(patch("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -264,8 +280,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(patch("/api/v1/documents/1")
+        mockMvc.perform(patch("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -281,8 +298,9 @@ class DocumentControllerTest {
 
         String jsonDoc = objectMapper.writeValueAsString(documentEntity);
 
-        mockMvc.perform(patch("/api/v1/documents/1")
+        mockMvc.perform(patch("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonDoc)
         ).andExpect(status().isBadRequest());
     }
@@ -292,15 +310,17 @@ class DocumentControllerTest {
         when(documentService.createDocument(anyLong(), any(DocumentEntity.class)))
                 .thenReturn(anyValidDocument());
 
-        mockMvc.perform(delete("/api/v1/documents/1")
+        mockMvc.perform(delete("/api/v1/docManagement/documents/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteDocumentReturnsHttp204NoContentWhenDocumentDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/api/v1/documents/99")
+        mockMvc.perform(delete("/api/v1/docManagement/documents/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -309,15 +329,17 @@ class DocumentControllerTest {
         when(documentService.createDocument(anyLong(), any(DocumentEntity.class)))
                 .thenReturn(anyValidDocument());
 
-        mockMvc.perform(delete("/api/v1/offices/1/documents")
+        mockMvc.perform(delete("/api/v1/docManagement/offices/1/documents")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteAllDocumentsOfOfficeReturnsHttp204NoContentWhenOfficeDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/api/v1/offices/99/documents")
+        mockMvc.perform(delete("/api/v1/docManagement/offices/99/documents")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 

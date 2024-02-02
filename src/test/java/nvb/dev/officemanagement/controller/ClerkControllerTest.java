@@ -23,6 +23,7 @@ import static nvb.dev.officemanagement.MotherObject.anyValidUpdatedClerk;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -51,8 +52,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidClerk());
 
-        mockMvc.perform(post("/api/v1/offices/1/managers/1/clerks")
+        mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                         .content(jsonClerk)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -68,8 +70,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/managers/1/clerks")
+        mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -83,8 +86,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/managers/1/clerks")
+        mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -98,8 +102,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/managers/1/clerks")
+        mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -113,8 +118,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/managers/1/clerks")
+        mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -131,8 +137,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(post("/api/v1/offices/1/managers/1/clerks")
+        mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -142,8 +149,9 @@ class ClerkControllerTest {
         when(clerkService.getAllClerksByOfficeIdAndManagerId(anyLong(), anyLong()))
                 .thenReturn(List.of(anyValidClerk(), anyValidClerk()));
 
-        mockMvc.perform(get("/api/v1/offices/1/managers/1/clerks")
+        mockMvc.perform(get("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].firstName").value("dummy"));
@@ -153,8 +161,9 @@ class ClerkControllerTest {
     void testThatGetClerkByIdSuccessfullyReturnsHttp200Ok() throws Exception {
         when(clerkService.getClerkById(anyLong())).thenReturn(Optional.of(anyValidClerk()));
 
-        mockMvc.perform(get("/api/v1/clerks/1")
+        mockMvc.perform(get("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.firstName").value("dummy"));
@@ -164,8 +173,9 @@ class ClerkControllerTest {
     void testThatGetClerkByIdReturnsHttp404NotFound() throws Exception {
         when(clerkService.getClerkById(anyLong())).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/v1/clerks/1")
+        mockMvc.perform(get("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -176,8 +186,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
-        mockMvc.perform(put("/api/v1/clerks/1")
+        mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                         .content(jsonClerk)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -191,8 +202,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
-        mockMvc.perform(put("/api/v1/clerks/1")
+        mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isNotFound());
     }
@@ -207,8 +219,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(put("/api/v1/clerks/1")
+        mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -223,8 +236,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(put("/api/v1/clerks/1")
+        mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -239,8 +253,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(put("/api/v1/clerks/1")
+        mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -255,8 +270,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(put("/api/v1/clerks/1")
+        mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -274,8 +290,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(put("/api/v1/clerks/1")
+        mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -287,8 +304,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
-        mockMvc.perform(patch("/api/v1/clerks/1")
+        mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                         .content(jsonClerk)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -302,8 +320,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
-        mockMvc.perform(patch("/api/v1/clerks/99")
+        mockMvc.perform(patch("/api/v1/clerkManagement/clerks/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isNotFound());
     }
@@ -318,8 +337,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(patch("/api/v1/clerks/1")
+        mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -334,8 +354,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(patch("/api/v1/clerks/1")
+        mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -350,8 +371,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(patch("/api/v1/clerks/1")
+        mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -366,8 +388,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(patch("/api/v1/clerks/1")
+        mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -385,8 +408,9 @@ class ClerkControllerTest {
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
-        mockMvc.perform(patch("/api/v1/clerks/1")
+        mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -395,15 +419,17 @@ class ClerkControllerTest {
     void testThatDeleteClerkReturnsHttp204WhenClerkExists() throws Exception {
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(anyValidClerk());
 
-        mockMvc.perform(delete("/api/v1/clerks/1")
+        mockMvc.perform(delete("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteClerkReturnsHttp204WhenClerkDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/api/v1/clerks/99")
+        mockMvc.perform(delete("/api/v1/clerkManagement/clerks/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -412,15 +438,17 @@ class ClerkControllerTest {
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class)))
                 .thenReturn(anyValidClerk());
 
-        mockMvc.perform(delete("/api/v1/managers/1/clerks")
+        mockMvc.perform(delete("/api/v1/clerkManagement/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteAllClerksOfManagerReturnsHttp204WhenManagerDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/api/v1/managers/99/clerks")
+        mockMvc.perform(delete("/api/v1/clerkManagement/managers/99/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 

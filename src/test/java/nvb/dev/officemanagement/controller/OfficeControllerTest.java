@@ -22,6 +22,7 @@ import static nvb.dev.officemanagement.MotherObject.anyValidOffice;
 import static nvb.dev.officemanagement.MotherObject.anyValidUpdatedOffice;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,8 +51,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidOffice());
 
-        mockMvc.perform(post("/api/v1/offices")
+        mockMvc.perform(post("/api/v1/officeManagement/offices")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                         .content(jsonOffice)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -67,8 +69,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(post("/api/v1/offices")
+        mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -82,8 +85,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(post("/api/v1/offices")
+        mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -97,8 +101,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(post("/api/v1/offices")
+        mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -114,8 +119,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(post("/api/v1/offices")
+        mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -124,8 +130,9 @@ class OfficeControllerTest {
     void testThatGetAllOfficesSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.getAllOffices()).thenReturn(List.of(anyValidOffice(), anyValidOffice()));
 
-        mockMvc.perform(get("/api/v1/offices")
+        mockMvc.perform(get("/api/v1/officeManagement/offices")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].officeName").value("dummy"));
@@ -135,8 +142,9 @@ class OfficeControllerTest {
     void testThatGetOfficeByIdSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.getOfficeById(anyLong())).thenReturn(Optional.of(anyValidOffice()));
 
-        mockMvc.perform(get("/api/v1/offices/1")
+        mockMvc.perform(get("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.officeName").value("dummy"));
@@ -146,8 +154,9 @@ class OfficeControllerTest {
     void testThatGetOfficeByIdReturnsHttp404NotFound() throws Exception {
         when(officeService.getOfficeById(anyLong())).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/v1/offices/99")
+        mockMvc.perform(get("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -155,8 +164,9 @@ class OfficeControllerTest {
     void testThatGetOfficeByOfficeNameSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.getOfficeByOfficeName(anyString())).thenReturn(Optional.of(anyValidOffice()));
 
-        mockMvc.perform(get("/api/v1/officesByName/dummy")
+        mockMvc.perform(get("/api/v1/officeManagement/officesByName/dummy")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.officeName").value("dummy"));
@@ -166,8 +176,9 @@ class OfficeControllerTest {
     void testThatGetOfficeByOfficeNameReturnsHttp404NotFound() throws Exception {
         when(officeService.getOfficeByOfficeName(anyString())).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/api/v1/officesByName/wrong")
+        mockMvc.perform(get("/api/v1/officeManagement/officesByName/wrong")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -178,8 +189,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
-        mockMvc.perform(put("/api/v1/offices/1")
+        mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                         .content(jsonOffice)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -193,8 +205,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
-        mockMvc.perform(put("/api/v1/offices/99")
+        mockMvc.perform(put("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isNotFound());
     }
@@ -209,8 +222,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(put("/api/v1/offices/1")
+        mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -225,8 +239,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(put("/api/v1/offices/1")
+        mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -241,8 +256,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(put("/api/v1/offices/1")
+        mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -259,8 +275,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(put("/api/v1/offices/1")
+        mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -272,8 +289,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
-        mockMvc.perform(patch("/api/v1/offices/1")
+        mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .with(httpBasic("erfan", "password123"))
                         .content(jsonOffice)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.officeName").value("updatedDummy"));
@@ -286,8 +304,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
-        mockMvc.perform(patch("/api/v1/offices/99")
+        mockMvc.perform(patch("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isNotFound());
     }
@@ -302,8 +321,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(patch("/api/v1/offices/1")
+        mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -318,8 +338,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(patch("/api/v1/offices/1")
+        mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -334,8 +355,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(patch("/api/v1/offices/1")
+        mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -352,8 +374,9 @@ class OfficeControllerTest {
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
-        mockMvc.perform(patch("/api/v1/offices/1")
+        mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -362,15 +385,17 @@ class OfficeControllerTest {
     void testThatDeleteOfficeReturnsHttp204ForExistingOffice() throws Exception {
         when(officeService.createOffice(any(OfficeEntity.class))).thenReturn(anyValidOffice());
 
-        mockMvc.perform(delete("/api/v1/offices/1")
+        mockMvc.perform(delete("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteOfficeReturnsHttp204ForNonExistingOffice() throws Exception {
-        mockMvc.perform(delete("/api/v1/offices/99")
+        mockMvc.perform(delete("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -378,8 +403,9 @@ class OfficeControllerTest {
     void testThatDeleteAllOfficesReturns204ForExistingOffices() throws Exception {
         when(officeService.getAllOffices()).thenReturn(List.of(anyValidOffice(), anyValidOffice()));
 
-        mockMvc.perform(delete("/api/v1/offices")
+        mockMvc.perform(delete("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -387,8 +413,9 @@ class OfficeControllerTest {
     void testThatDeleteAllOfficesReturns204ForNonExistingOffices() throws Exception {
         when(officeService.getAllOffices()).thenReturn(List.of());
 
-        mockMvc.perform(delete("/api/v1/offices")
+        mockMvc.perform(delete("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
