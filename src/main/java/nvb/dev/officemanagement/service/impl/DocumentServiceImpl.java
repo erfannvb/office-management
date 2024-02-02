@@ -2,6 +2,7 @@ package nvb.dev.officemanagement.service.impl;
 
 import lombok.AllArgsConstructor;
 import nvb.dev.officemanagement.exception.EntityNotFoundException;
+import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.DocumentEntity;
 import nvb.dev.officemanagement.model.entity.OfficeEntity;
 import nvb.dev.officemanagement.repository.DocumentRepository;
@@ -30,6 +31,12 @@ public class DocumentServiceImpl implements DocumentService {
     public Optional<DocumentEntity> getDocumentById(long documentId) {
         return Optional.ofNullable(documentRepository.findById(documentId)
                 .orElseThrow(() -> new EntityNotFoundException(DocumentEntity.class, documentId)));
+    }
+
+    @Override
+    public Optional<DocumentEntity> getDocumentByTitle(String title) {
+        return Optional.ofNullable(documentRepository.findByTitle(title)
+                .orElseThrow(NoDataFoundException::new));
     }
 
     @Override

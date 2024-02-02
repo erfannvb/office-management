@@ -11,6 +11,8 @@ public interface DocumentService {
 
     Optional<DocumentEntity> getDocumentById(long documentId);
 
+    Optional<DocumentEntity> getDocumentByTitle(String title);
+
     List<DocumentEntity> getAllDocumentsByOfficeId(long officeId);
 
     DocumentEntity updateDocument(long documentId, DocumentEntity document);

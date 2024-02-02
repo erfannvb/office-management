@@ -38,6 +38,15 @@ public class DocumentController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping(path = "/documents")
+    public ResponseEntity<DocumentDto> getDocumentByTitle(@RequestParam(name = "title") String title) {
+        Optional<DocumentEntity> foundDoc = documentService.getDocumentByTitle(title);
+        return foundDoc.map(documentEntity -> {
+            DocumentDto documentDto = documentMapper.toDocumentDto(documentEntity);
+            return new ResponseEntity<>(documentDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @GetMapping(path = "/offices/{officeId}/documents")
     public ResponseEntity<List<DocumentDto>> getAllDocumentsByOfficeId(@PathVariable long officeId) {
         List<DocumentEntity> documents = documentService.getAllDocumentsByOfficeId(officeId);
