@@ -29,9 +29,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUserByUsername(String username) {
-        Optional<UserEntity> optionalUser = userRepository.findByUsername(username);
-        return unwrapUser(optionalUser, optionalUser.get().getId());
+    public Optional<UserEntity> getUserByUsername(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username)
+                .orElseThrow(NoDataFoundException::new));
     }
 
     @Override
@@ -69,10 +69,5 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new EntityNotFoundException(UserEntity.class, userId);
         }
-    }
-
-    private static UserEntity unwrapUser(Optional<UserEntity> entity, long userId) {
-        if (entity.isPresent()) return entity.get();
-        else throw new EntityNotFoundException(UserEntity.class, userId);
     }
 }

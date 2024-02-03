@@ -11,7 +11,7 @@ public interface UserService {
 
     Optional<UserEntity> getUserById(long userId);
 
-    UserEntity getUserByUsername(String username);
+    Optional<UserEntity> getUserByUsername(String username);
 
     List<UserEntity> getAllUsers();
 
