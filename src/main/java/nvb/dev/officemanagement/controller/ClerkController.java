@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/api/v1/clerkManagement")
+@RequestMapping(path = "/api/v1")
 @AllArgsConstructor
 public class ClerkController {
 
