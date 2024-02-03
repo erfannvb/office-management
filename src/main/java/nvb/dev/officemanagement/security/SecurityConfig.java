@@ -3,18 +3,12 @@ package nvb.dev.officemanagement.security;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static nvb.dev.officemanagement.constant.SecurityConstant.DOC_URL;
-import static nvb.dev.officemanagement.security.UserPermission.ADMIN_WRITE;
-import static nvb.dev.officemanagement.security.UserRole.ADMIN;
-import static nvb.dev.officemanagement.security.UserRole.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -29,11 +23,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.DELETE, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.POST, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PUT, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PATCH, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.GET, DOC_URL).hasAnyRole(ADMIN.name(), USER.name())
+                        .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
 
