@@ -70,4 +70,9 @@ public class UserServiceImpl implements UserService {
             throw new EntityNotFoundException(UserEntity.class, userId);
         }
     }
+
+    @Override
+    public boolean isExists(long userId) {
+        return userRepository.existsById(userId);
+    }
 }
