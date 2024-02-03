@@ -1,14 +1,8 @@
 package nvb.dev.officemanagement;
 
 import nvb.dev.officemanagement.model.Address;
-import nvb.dev.officemanagement.model.dto.ClerkDto;
-import nvb.dev.officemanagement.model.dto.DocumentDto;
-import nvb.dev.officemanagement.model.dto.ManagerDto;
-import nvb.dev.officemanagement.model.dto.OfficeDto;
-import nvb.dev.officemanagement.model.entity.ClerkEntity;
-import nvb.dev.officemanagement.model.entity.DocumentEntity;
-import nvb.dev.officemanagement.model.entity.ManagerEntity;
-import nvb.dev.officemanagement.model.entity.OfficeEntity;
+import nvb.dev.officemanagement.model.dto.*;
+import nvb.dev.officemanagement.model.entity.*;
 
 public class MotherObject {
 
@@ -157,6 +151,30 @@ public class MotherObject {
         return Address.builder()
                 .city(ANY_STRING)
                 .country(ANY_STRING)
+                .build();
+    }
+
+    public static UserEntity anyValidUser() {
+        return UserEntity.builder()
+                .id(ANY_ID)
+                .username(ANY_STRING)
+                .password(ANY_STRING)
+                .build();
+    }
+
+    public static UserEntity anyValidUpdatedUser() {
+        return UserEntity.builder()
+                .id(ANY_ID)
+                .username(ANY_UPDATED_STRING)
+                .password(ANY_UPDATED_STRING)
+                .build();
+    }
+
+    public static UserDto anyValidUserDto() {
+        return UserDto.builder()
+                .id(ANY_ID)
+                .username(ANY_STRING)
+                .password(ANY_STRING)
                 .build();
     }
 
