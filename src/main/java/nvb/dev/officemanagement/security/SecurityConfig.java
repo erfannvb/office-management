@@ -33,27 +33,11 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.DELETE, CLERK_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.POST, CLERK_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PUT, CLERK_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PATCH, CLERK_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.GET, CLERK_URL).hasAnyRole(ADMIN.name(), USER.name())
                         .requestMatchers(HttpMethod.DELETE, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
                         .requestMatchers(HttpMethod.POST, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
                         .requestMatchers(HttpMethod.PUT, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
                         .requestMatchers(HttpMethod.PATCH, DOC_URL).hasAuthority(ADMIN_WRITE.getPermission())
                         .requestMatchers(HttpMethod.GET, DOC_URL).hasAnyRole(ADMIN.name(), USER.name())
-                        .requestMatchers(HttpMethod.DELETE, MANAGER_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.POST, MANAGER_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PUT, MANAGER_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PATCH, MANAGER_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.GET, MANAGER_URL).hasAnyRole(ADMIN.name(), USER.name())
-                        .requestMatchers(HttpMethod.DELETE, OFFICE_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.POST, OFFICE_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PUT, OFFICE_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PATCH, OFFICE_URL).hasAuthority(ADMIN_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.GET, OFFICE_URL).hasAnyRole(ADMIN.name(), USER.name())
-                        .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults());
 
