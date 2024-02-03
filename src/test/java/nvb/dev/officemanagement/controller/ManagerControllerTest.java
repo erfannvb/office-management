@@ -53,7 +53,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(post("/api/v1/managerManagement/offices/1/managers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonManager)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -71,7 +70,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(post("/api/v1/managerManagement/offices/1/managers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -87,7 +85,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(post("/api/v1/managerManagement/offices/1/managers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -103,7 +100,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(post("/api/v1/managerManagement/offices/1/managers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -119,7 +115,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(post("/api/v1/managerManagement/offices/1/managers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -138,7 +133,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(post("/api/v1/managerManagement/offices/1/managers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -149,7 +143,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(get("/api/v1/managerManagement/managers/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.firstName").value("dummy"));
@@ -161,7 +154,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(get("/api/v1/managerManagement/managers/")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -173,7 +165,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(get("/api/v1/managerManagement/offices/1/managers")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].firstName").value("dummy"));
@@ -189,7 +180,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(put("/api/v1/managerManagement/managers/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonManager)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -206,7 +196,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(put("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isNotFound());
     }
@@ -224,7 +213,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(put("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -242,7 +230,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(put("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -260,7 +247,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(put("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -278,7 +264,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(put("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -299,7 +284,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(put("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -314,7 +298,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(patch("/api/v1/managerManagement/managers/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonManager)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -331,7 +314,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(patch("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isNotFound());
     }
@@ -349,7 +331,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(patch("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -367,7 +348,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(patch("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -385,7 +365,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(patch("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -403,7 +382,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(patch("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -424,7 +402,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(patch("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonManager)
         ).andExpect(status().isBadRequest());
     }
@@ -435,7 +412,6 @@ class ManagerControllerTest {
 
         mockMvc.perform(delete("/api/v1/managerManagement/managers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -443,17 +419,15 @@ class ManagerControllerTest {
     void testThatDeleteManagerReturnsHttp204NoContentForNonExistingManager() throws Exception {
         mockMvc.perform(delete("/api/v1/managerManagement/managers/99")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteAllManagersOfOfficeSuccessfullyReturnsHttp204NoContentForExistingManager() throws Exception {
-        when(managerService.createManager(anyLong(),any(ManagerEntity.class))).thenReturn(anyValidManager());
+        when(managerService.createManager(anyLong(), any(ManagerEntity.class))).thenReturn(anyValidManager());
 
         mockMvc.perform(delete("/api/v1/managerManagement/offices/1/managers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -461,7 +435,6 @@ class ManagerControllerTest {
     void testThatDeleteAllManagersOfOfficeReturnsHttp204NoContentForNonExistingManager() throws Exception {
         mockMvc.perform(delete("/api/v1/managerManagement/offices/99/managers")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 

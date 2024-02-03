@@ -53,7 +53,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonOffice)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -71,7 +70,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -87,7 +85,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -103,7 +100,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -121,7 +117,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -132,7 +127,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(get("/api/v1/officeManagement/offices")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].officeName").value("dummy"));
@@ -144,7 +138,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(get("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.officeName").value("dummy"));
@@ -156,7 +149,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(get("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -166,7 +158,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(get("/api/v1/officeManagement/officesByName/dummy")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.officeName").value("dummy"));
@@ -178,7 +169,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(get("/api/v1/officeManagement/officesByName/wrong")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -191,7 +181,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonOffice)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -207,7 +196,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isNotFound());
     }
@@ -224,7 +212,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -241,7 +228,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -258,7 +244,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -277,7 +262,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -291,7 +275,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonOffice)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.officeName").value("updatedDummy"));
@@ -306,7 +289,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isNotFound());
     }
@@ -323,7 +305,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -340,7 +321,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -357,7 +337,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -376,7 +355,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -387,7 +365,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(delete("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -395,7 +372,6 @@ class OfficeControllerTest {
     void testThatDeleteOfficeReturnsHttp204ForNonExistingOffice() throws Exception {
         mockMvc.perform(delete("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -405,7 +381,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(delete("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -415,7 +390,6 @@ class OfficeControllerTest {
 
         mockMvc.perform(delete("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 

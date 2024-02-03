@@ -54,7 +54,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonClerk)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -72,7 +71,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -88,7 +86,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -104,7 +101,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -120,7 +116,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -139,7 +134,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -151,7 +145,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(get("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].firstName").value("dummy"));
@@ -163,7 +156,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(get("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.firstName").value("dummy"));
@@ -175,7 +167,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(get("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNotFound());
     }
 
@@ -188,7 +179,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonClerk)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -204,7 +194,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isNotFound());
     }
@@ -221,7 +210,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -238,7 +226,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -255,7 +242,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -272,7 +258,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -292,7 +277,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -306,7 +290,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .with(httpBasic("erfan", "password123"))
                         .content(jsonClerk)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -322,7 +305,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/99")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isNotFound());
     }
@@ -339,7 +321,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -356,7 +337,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -373,7 +353,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -390,7 +369,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -410,7 +388,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -421,7 +398,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(delete("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -429,7 +405,6 @@ class ClerkControllerTest {
     void testThatDeleteClerkReturnsHttp204WhenClerkDoesNotExist() throws Exception {
         mockMvc.perform(delete("/api/v1/clerkManagement/clerks/99")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -440,7 +415,6 @@ class ClerkControllerTest {
 
         mockMvc.perform(delete("/api/v1/clerkManagement/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
@@ -448,7 +422,6 @@ class ClerkControllerTest {
     void testThatDeleteAllClerksOfManagerReturnsHttp204WhenManagerDoesNotExist() throws Exception {
         mockMvc.perform(delete("/api/v1/clerkManagement/managers/99/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(httpBasic("erfan", "password123"))
         ).andExpect(status().isNoContent());
     }
 
