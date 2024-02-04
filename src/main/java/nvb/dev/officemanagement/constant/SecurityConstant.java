@@ -12,6 +12,6 @@ public class SecurityConstant {
     public static final String USER_URL = "/api/v1/userManagement/**";
 
     public static final String BEARER = "Bearer ";
-    public static final String SECRET_KEY = "ac5d152799de4870d25ed854c35373c721bcb747246624791baae95e";
+    public static final String SECRET_KEY = "ac4000fd899172276b1be1c6d0d62e12c02297a956a25e80f5ff46ffd86f6a9a";
 
 }
