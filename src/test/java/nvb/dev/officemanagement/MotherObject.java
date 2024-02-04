@@ -3,6 +3,7 @@ package nvb.dev.officemanagement;
 import nvb.dev.officemanagement.model.Address;
 import nvb.dev.officemanagement.model.dto.*;
 import nvb.dev.officemanagement.model.entity.*;
+import nvb.dev.officemanagement.security.UserRole;
 
 public class MotherObject {
 
@@ -159,6 +160,7 @@ public class MotherObject {
                 .id(ANY_ID)
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .userRole(UserRole.USER)
                 .build();
     }
 
@@ -167,6 +169,7 @@ public class MotherObject {
                 .id(ANY_ID)
                 .username(ANY_UPDATED_STRING)
                 .password(ANY_UPDATED_STRING)
+                .userRole(UserRole.USER)
                 .build();
     }
 
@@ -175,6 +178,7 @@ public class MotherObject {
                 .id(ANY_ID)
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .userRole(UserRole.USER)
                 .build();
     }
 
