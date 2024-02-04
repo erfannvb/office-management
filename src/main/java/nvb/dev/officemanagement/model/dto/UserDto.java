@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import nvb.dev.officemanagement.security.UserRole;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +19,5 @@ public class UserDto {
 
     @NotEmpty(message = "password cannot be empty.")
     private String password;
-
-    private UserRole userRole;
 
 }
