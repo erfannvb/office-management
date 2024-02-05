@@ -79,7 +79,13 @@ public class SecurityConfig {
                 .authorities(ADMIN.getGrantedAuthorities())
                 .build();
 
-        return new InMemoryUserDetailsManager(erfan);
+        UserDetails jessica = User.builder()
+                .username("jessica")
+                .password(passwordEncoder.encode("pwd"))
+                .authorities(USER.getGrantedAuthorities())
+                .build();
+
+        return new InMemoryUserDetailsManager(erfan, jessica);
     }
 
 }
