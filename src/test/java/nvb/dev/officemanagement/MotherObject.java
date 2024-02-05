@@ -158,24 +158,33 @@ public class MotherObject {
     public static UserEntity anyValidUser() {
         return UserEntity.builder()
                 .id(ANY_ID)
+                .firstName(ANY_STRING)
+                .lastName(ANY_STRING)
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .userRole(UserRole.ADMIN)
                 .build();
     }
 
     public static UserEntity anyValidUpdatedUser() {
         return UserEntity.builder()
                 .id(ANY_ID)
+                .firstName(ANY_UPDATED_STRING)
+                .lastName(ANY_UPDATED_STRING)
                 .username(ANY_UPDATED_STRING)
                 .password(ANY_UPDATED_STRING)
+                .userRole(UserRole.ADMIN)
                 .build();
     }
 
     public static UserDto anyValidUserDto() {
         return UserDto.builder()
                 .id(ANY_ID)
+                .firstName(ANY_STRING)
+                .lastName(ANY_STRING)
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .userRole(UserRole.ADMIN)
                 .build();
     }
 
