@@ -10,6 +10,7 @@ public class SecurityConstant {
     public static final String OFFICE_URL = "/api/v1/officeManagement/**";
     public static final String DOC_URL = "/api/v1/docManagement/**";
     public static final String USER_URL = "/api/v1/userManagement/**";
+    public static final String AUTH_URL = "/api/v1/auth/**";
 
     public static final int TOKEN_EXPIRATION_TIME = 1000 * 60 * 24;
     public static final int REFRESH_TOKEN_EXPIRATION_TIME = 604800000;
