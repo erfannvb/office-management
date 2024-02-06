@@ -4,7 +4,8 @@ import nvb.dev.officemanagement.model.Address;
 import nvb.dev.officemanagement.model.dto.*;
 import nvb.dev.officemanagement.model.entity.*;
 import nvb.dev.officemanagement.model.response.JwtAuthResponse;
-import nvb.dev.officemanagement.security.UserRole;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import static nvb.dev.officemanagement.security.UserRole.ADMIN;
 
@@ -195,6 +196,14 @@ public class MotherObject {
         return JwtAuthResponse.builder()
                 .token(ANY_STRING)
                 .refreshToken(ANY_STRING)
+                .build();
+    }
+
+    public static UserDetails anyValidUserDetails() {
+        return User.builder()
+                .username(ANY_STRING)
+                .password(ANY_STRING)
+                .authorities(ADMIN.name())
                 .build();
     }
 
