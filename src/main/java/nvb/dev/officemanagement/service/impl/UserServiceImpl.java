@@ -75,4 +75,5 @@ public class UserServiceImpl implements UserService {
     public boolean isExists(long userId) {
         return userRepository.existsById(userId);
     }
+
 }
