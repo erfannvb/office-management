@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface JwtService {
 
-    String generateToken(UserEntity user);
+    String generateToken(UserDetails user);
 
-    String generateRefreshToken(Map<String, Object> extraClaims, UserEntity user);
+    String generateRefreshToken(Map<String, Object> extraClaims, UserDetails user);
 
     String extractUsername(String token);
 

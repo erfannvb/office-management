@@ -3,7 +3,6 @@ package nvb.dev.officemanagement.security.impl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import nvb.dev.officemanagement.model.entity.UserEntity;
 import nvb.dev.officemanagement.security.JwtService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import static nvb.dev.officemanagement.constant.SecurityConstant.*;
 public class JwtServiceImpl implements JwtService {
 
     @Override
-    public String generateToken(UserEntity user) {
+    public String generateToken(UserDetails user) {
         return Jwts.builder()
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
@@ -28,7 +27,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateRefreshToken(Map<String, Object> extraClaims, UserEntity user) {
+    public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails user) {
         return Jwts.builder()
                 .claims(extraClaims)
                 .subject(user.getUsername())
