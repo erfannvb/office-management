@@ -1,6 +1,7 @@
 package nvb.dev.officemanagement.service;
 
 import nvb.dev.officemanagement.model.entity.UserEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +21,7 @@ public interface UserService {
     void deleteUser(long userId);
 
     boolean isExists(long userId);
+
+    UserDetailsService userDetailsService();
 
 }
