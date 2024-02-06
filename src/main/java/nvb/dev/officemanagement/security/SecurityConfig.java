@@ -1,30 +1,34 @@
 package nvb.dev.officemanagement.security;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import nvb.dev.officemanagement.security.filter.JwtAuthenticationFilter;
+import nvb.dev.officemanagement.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static nvb.dev.officemanagement.constant.SecurityConstant.*;
-import static nvb.dev.officemanagement.security.UserPermission.DOC_WRITE;
 import static nvb.dev.officemanagement.security.UserRole.ADMIN;
 import static nvb.dev.officemanagement.security.UserRole.USER;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Bean
@@ -34,58 +38,43 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers(HttpMethod.DELETE, CLERK_URL).permitAll()
-                        .requestMatchers(HttpMethod.POST, CLERK_URL).permitAll()
-                        .requestMatchers(HttpMethod.PUT, CLERK_URL).permitAll()
-                        .requestMatchers(HttpMethod.PATCH, CLERK_URL).permitAll()
-                        .requestMatchers(HttpMethod.GET, CLERK_URL).permitAll()
+                        .requestMatchers(AUTH_URL).permitAll()
 
-                        .requestMatchers(HttpMethod.DELETE, DOC_URL).hasAuthority(DOC_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.POST, DOC_URL).hasAuthority(DOC_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PUT, DOC_URL).hasAuthority(DOC_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PATCH, DOC_URL).hasAuthority(DOC_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.GET, DOC_URL).hasAnyRole(ADMIN.name(), USER.name())
+                        .requestMatchers(CLERK_URL).hasAnyAuthority(ADMIN.name(), USER.name())
 
-                        .requestMatchers(HttpMethod.DELETE, MANAGER_URL).permitAll()
-                        .requestMatchers(HttpMethod.POST, MANAGER_URL).permitAll()
-                        .requestMatchers(HttpMethod.PUT, MANAGER_URL).permitAll()
-                        .requestMatchers(HttpMethod.PATCH, MANAGER_URL).permitAll()
-                        .requestMatchers(HttpMethod.GET, MANAGER_URL).permitAll()
+                        .requestMatchers(HttpMethod.POST, DOC_URL).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, DOC_URL).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(HttpMethod.PATCH, DOC_URL).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE, DOC_URL).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, DOC_URL).hasAnyAuthority(ADMIN.name(), USER.name())
 
-                        .requestMatchers(HttpMethod.DELETE, OFFICE_URL).permitAll()
-                        .requestMatchers(HttpMethod.POST, OFFICE_URL).permitAll()
-                        .requestMatchers(HttpMethod.PUT, OFFICE_URL).permitAll()
-                        .requestMatchers(HttpMethod.PATCH, OFFICE_URL).permitAll()
-                        .requestMatchers(HttpMethod.GET, OFFICE_URL).permitAll()
+                        .requestMatchers(MANAGER_URL).hasAnyAuthority(ADMIN.name(), USER.name())
 
-                        .requestMatchers(HttpMethod.DELETE, USER_URL).permitAll()
-                        .requestMatchers(HttpMethod.POST, USER_URL).permitAll()
-                        .requestMatchers(HttpMethod.PUT, USER_URL).permitAll()
-                        .requestMatchers(HttpMethod.PATCH, USER_URL).permitAll()
-                        .requestMatchers(HttpMethod.GET, USER_URL).permitAll()
+                        .requestMatchers(OFFICE_URL).hasAnyAuthority(ADMIN.name(), USER.name())
+
+                        .requestMatchers(USER_URL).permitAll()
 
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails erfan = User.builder()
-                .username("erfan")
-                .password(passwordEncoder.encode("password123"))
-                .authorities(ADMIN.getGrantedAuthorities())
-                .build();
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userService.userDetailsService());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+        return daoAuthenticationProvider;
+    }
 
-        UserDetails jessica = User.builder()
-                .username("jessica")
-                .password(passwordEncoder.encode("pwd"))
-                .authorities(USER.getGrantedAuthorities())
-                .build();
-
-        return new InMemoryUserDetailsManager(erfan, jessica);
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+            throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
 }
