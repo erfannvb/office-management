@@ -3,6 +3,7 @@ package nvb.dev.officemanagement;
 import nvb.dev.officemanagement.model.Address;
 import nvb.dev.officemanagement.model.dto.*;
 import nvb.dev.officemanagement.model.entity.*;
+import nvb.dev.officemanagement.model.response.JwtAuthResponse;
 import nvb.dev.officemanagement.security.UserRole;
 
 import static nvb.dev.officemanagement.security.UserRole.ADMIN;
@@ -187,6 +188,13 @@ public class MotherObject {
                 .username(ANY_STRING)
                 .password(ANY_STRING)
                 .userRole(ADMIN)
+                .build();
+    }
+
+    public static JwtAuthResponse anyValidJwtAuthResponse() {
+        return JwtAuthResponse.builder()
+                .token(ANY_STRING)
+                .refreshToken(ANY_STRING)
                 .build();
     }
 
