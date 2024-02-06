@@ -5,6 +5,8 @@ import nvb.dev.officemanagement.model.dto.*;
 import nvb.dev.officemanagement.model.entity.*;
 import nvb.dev.officemanagement.security.UserRole;
 
+import static nvb.dev.officemanagement.security.UserRole.ADMIN;
+
 public class MotherObject {
 
     public static final Long ANY_ID = 1L;
@@ -158,24 +160,33 @@ public class MotherObject {
     public static UserEntity anyValidUser() {
         return UserEntity.builder()
                 .id(ANY_ID)
+                .firstName(ANY_STRING)
+                .lastName(ANY_STRING)
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .userRole(ADMIN)
                 .build();
     }
 
     public static UserEntity anyValidUpdatedUser() {
         return UserEntity.builder()
                 .id(ANY_ID)
+                .firstName(ANY_UPDATED_STRING)
+                .lastName(ANY_UPDATED_STRING)
                 .username(ANY_UPDATED_STRING)
                 .password(ANY_UPDATED_STRING)
+                .userRole(ADMIN)
                 .build();
     }
 
     public static UserDto anyValidUserDto() {
         return UserDto.builder()
                 .id(ANY_ID)
+                .firstName(ANY_STRING)
+                .lastName(ANY_STRING)
                 .username(ANY_STRING)
                 .password(ANY_STRING)
+                .userRole(ADMIN)
                 .build();
     }
 
