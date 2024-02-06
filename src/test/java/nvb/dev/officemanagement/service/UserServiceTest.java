@@ -9,8 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -169,26 +167,6 @@ class UserServiceTest {
 
         assertFalse(exists);
         verify(userRepository, atLeastOnce()).existsById(anyLong());
-    }
-
-    @Test
-    void testThatUserDetailsServiceFindsTheUsername() {
-        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(anyValidUser()));
-
-        UserDetails userDetails = userService.userDetailsService().loadUserByUsername("dummy");
-
-        assertEquals("dummy", userDetails.getUsername());
-        verify(userRepository, atLeastOnce()).findByUsername(anyString());
-    }
-
-    @Test
-    void testThatUserDetailsCannotFindTheUsername() {
-        when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
-
-        assertThrows(UsernameNotFoundException.class, () ->
-                userService.userDetailsService().loadUserByUsername("dummy"));
-
-        verify(userRepository, atLeastOnce()).findByUsername(anyString());
     }
 
 }
