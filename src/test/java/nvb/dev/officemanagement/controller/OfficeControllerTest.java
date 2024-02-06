@@ -3,6 +3,8 @@ package nvb.dev.officemanagement.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nvb.dev.officemanagement.mapper.OfficeMapper;
 import nvb.dev.officemanagement.model.entity.OfficeEntity;
+import nvb.dev.officemanagement.security.JwtService;
+import nvb.dev.officemanagement.security.impl.UserServiceDetailsImpl;
 import nvb.dev.officemanagement.service.OfficeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,11 +22,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Optional;
 
-import static nvb.dev.officemanagement.MotherObject.anyValidOffice;
-import static nvb.dev.officemanagement.MotherObject.anyValidUpdatedOffice;
+import static nvb.dev.officemanagement.MotherObject.*;
+import static nvb.dev.officemanagement.constant.SecurityConstant.BEARER;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,17 +45,36 @@ class OfficeControllerTest {
     @Autowired
     OfficeMapper officeMapper;
 
+    @Autowired
+    JwtService jwtService;
+
+    @MockBean
+    UserServiceDetailsImpl userServiceDetails;
+
     @MockBean
     OfficeService officeService;
+
+    private String generateToken() {
+        UserDetails user = User.builder()
+                .username("dummy")
+                .password("dummy")
+                .roles("ADMIN")
+                .build();
+        return jwtService.generateToken(user);
+    }
 
     @Test
     void testThatCreateOfficeSuccessfullyReturnsHttp201Created() throws Exception {
         when(officeService.createOffice(any(OfficeEntity.class))).thenReturn(anyValidOffice());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidOffice());
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                         .content(jsonOffice)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -65,11 +87,15 @@ class OfficeControllerTest {
         officeEntity.setOfficeName("");
 
         when(officeService.createOffice(any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -80,11 +106,15 @@ class OfficeControllerTest {
         officeEntity.setOfficeCode("");
 
         when(officeService.createOffice(any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -95,11 +125,15 @@ class OfficeControllerTest {
         officeEntity.setOfficePhoneNumber("");
 
         when(officeService.createOffice(any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -112,11 +146,15 @@ class OfficeControllerTest {
         officeEntity.setOfficePhoneNumber("");
 
         when(officeService.createOffice(any(OfficeEntity.class))).thenReturn(officeEntity);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(post("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -124,9 +162,13 @@ class OfficeControllerTest {
     @Test
     void testThatGetAllOfficesSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.getAllOffices()).thenReturn(List.of(anyValidOffice(), anyValidOffice()));
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/officeManagement/offices")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].officeName").value("dummy"));
@@ -135,9 +177,13 @@ class OfficeControllerTest {
     @Test
     void testThatGetOfficeByIdSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.getOfficeById(anyLong())).thenReturn(Optional.of(anyValidOffice()));
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.officeName").value("dummy"));
@@ -146,18 +192,26 @@ class OfficeControllerTest {
     @Test
     void testThatGetOfficeByIdReturnsHttp404NotFound() throws Exception {
         when(officeService.getOfficeById(anyLong())).thenReturn(Optional.empty());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNotFound());
     }
 
     @Test
     void testThatGetOfficeByOfficeNameSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.getOfficeByOfficeName(anyString())).thenReturn(Optional.of(anyValidOffice()));
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/officeManagement/officesByName/dummy")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.officeName").value("dummy"));
@@ -166,9 +220,13 @@ class OfficeControllerTest {
     @Test
     void testThatGetOfficeByOfficeNameReturnsHttp404NotFound() throws Exception {
         when(officeService.getOfficeByOfficeName(anyString())).thenReturn(Optional.empty());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/officeManagement/officesByName/wrong")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNotFound());
     }
 
@@ -176,11 +234,15 @@ class OfficeControllerTest {
     void testThatUpdateOfficeSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(anyValidUpdatedOffice());
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                         .content(jsonOffice)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -191,11 +253,15 @@ class OfficeControllerTest {
     void testThatUpdateOfficeReturnsHttp404NotFound() throws Exception {
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(anyValidUpdatedOffice());
         when(officeService.isExists(anyLong())).thenReturn(false);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isNotFound());
     }
@@ -207,11 +273,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -223,11 +293,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -239,11 +313,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -257,11 +335,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(put("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -270,11 +352,15 @@ class OfficeControllerTest {
     void testThatPartialUpdateSuccessfullyReturnsHttp200Ok() throws Exception {
         when(officeService.partialUpdate(anyLong(), any(OfficeEntity.class))).thenReturn(anyValidUpdatedOffice());
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                         .content(jsonOffice)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.officeName").value("updatedDummy"));
@@ -284,11 +370,15 @@ class OfficeControllerTest {
     void testThatPartialUpdateReturnsHttp404NotFound() throws Exception {
         when(officeService.partialUpdate(anyLong(), any(OfficeEntity.class))).thenReturn(anyValidUpdatedOffice());
         when(officeService.isExists(anyLong())).thenReturn(false);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(anyValidUpdatedOffice());
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isNotFound());
     }
@@ -300,11 +390,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -316,11 +410,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -332,11 +430,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -350,11 +452,15 @@ class OfficeControllerTest {
 
         when(officeService.updateOffice(anyLong(), any(OfficeEntity.class))).thenReturn(officeEntity);
         when(officeService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonOffice = objectMapper.writeValueAsString(officeEntity);
 
         mockMvc.perform(patch("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonOffice)
         ).andExpect(status().isBadRequest());
     }
@@ -362,34 +468,51 @@ class OfficeControllerTest {
     @Test
     void testThatDeleteOfficeReturnsHttp204ForExistingOffice() throws Exception {
         when(officeService.createOffice(any(OfficeEntity.class))).thenReturn(anyValidOffice());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(delete("/api/v1/officeManagement/offices/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteOfficeReturnsHttp204ForNonExistingOffice() throws Exception {
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
+
         mockMvc.perform(delete("/api/v1/officeManagement/offices/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteAllOfficesReturns204ForExistingOffices() throws Exception {
         when(officeService.getAllOffices()).thenReturn(List.of(anyValidOffice(), anyValidOffice()));
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(delete("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteAllOfficesReturns204ForNonExistingOffices() throws Exception {
         when(officeService.getAllOffices()).thenReturn(List.of());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(delete("/api/v1/officeManagement/offices")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 

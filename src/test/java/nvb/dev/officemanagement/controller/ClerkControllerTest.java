@@ -3,6 +3,9 @@ package nvb.dev.officemanagement.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nvb.dev.officemanagement.mapper.ClerkMapper;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
+import nvb.dev.officemanagement.model.entity.UserEntity;
+import nvb.dev.officemanagement.security.JwtService;
+import nvb.dev.officemanagement.security.impl.UserServiceDetailsImpl;
 import nvb.dev.officemanagement.service.ClerkService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +14,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,12 +23,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Optional;
 
-import static nvb.dev.officemanagement.MotherObject.anyValidClerk;
-import static nvb.dev.officemanagement.MotherObject.anyValidUpdatedClerk;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static nvb.dev.officemanagement.MotherObject.*;
+import static nvb.dev.officemanagement.constant.SecurityConstant.BEARER;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,17 +46,36 @@ class ClerkControllerTest {
     @Autowired
     ClerkMapper clerkMapper;
 
+    @Autowired
+    JwtService jwtService;
+
+    @MockBean
+    UserServiceDetailsImpl userServiceDetails;
+
     @MockBean
     ClerkService clerkService;
+
+    private String generateToken() {
+        UserDetails user = User.builder()
+                .username("dummy")
+                .password("dummy")
+                .roles("ADMIN")
+                .build();
+        return jwtService.generateToken(user);
+    }
 
     @Test
     void testThatCreateClerkSuccessfullyReturns201Created() throws Exception {
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidClerk());
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                         .content(jsonClerk)
                 ).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -65,12 +87,17 @@ class ClerkControllerTest {
         ClerkEntity clerkEntity = anyValidClerk();
         clerkEntity.setFirstName("");
 
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
+
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -80,12 +107,17 @@ class ClerkControllerTest {
         ClerkEntity clerkEntity = anyValidClerk();
         clerkEntity.setLastName("");
 
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
+
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -95,12 +127,17 @@ class ClerkControllerTest {
         ClerkEntity clerkEntity = anyValidClerk();
         clerkEntity.setDepartment("");
 
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
+
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -110,12 +147,17 @@ class ClerkControllerTest {
         ClerkEntity clerkEntity = anyValidClerk();
         clerkEntity.setAge(12);
 
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
+
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -128,12 +170,16 @@ class ClerkControllerTest {
         clerkEntity.setDepartment("");
         clerkEntity.setAge(12);
 
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(post("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -142,9 +188,13 @@ class ClerkControllerTest {
     void testThatGetAllClerksByOfficeIdAndManagerIdSuccessfullyReturnsHttp200Ok() throws Exception {
         when(clerkService.getAllClerksByOfficeIdAndManagerId(anyLong(), anyLong()))
                 .thenReturn(List.of(anyValidClerk(), anyValidClerk()));
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/clerkManagement/offices/1/managers/1/clerks")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").isNumber())
                 .andExpect(jsonPath("$[0].firstName").value("dummy"));
@@ -153,9 +203,13 @@ class ClerkControllerTest {
     @Test
     void testThatGetClerkByIdSuccessfullyReturnsHttp200Ok() throws Exception {
         when(clerkService.getClerkById(anyLong())).thenReturn(Optional.of(anyValidClerk()));
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.firstName").value("dummy"));
@@ -164,9 +218,13 @@ class ClerkControllerTest {
     @Test
     void testThatGetClerkByIdReturnsHttp404NotFound() throws Exception {
         when(clerkService.getClerkById(anyLong())).thenReturn(Optional.empty());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(get("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNotFound());
     }
 
@@ -174,11 +232,15 @@ class ClerkControllerTest {
     void testThatUpdateClerkSuccessfullyReturnsHttp200Ok() throws Exception {
         when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(anyValidUpdatedClerk());
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                         .content(jsonClerk)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -189,11 +251,15 @@ class ClerkControllerTest {
     void testThatUpdateClerkReturnsHttp404NotFound() throws Exception {
         when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(anyValidUpdatedClerk());
         when(clerkService.isExists(anyLong())).thenReturn(false);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isNotFound());
     }
@@ -205,11 +271,15 @@ class ClerkControllerTest {
 
         when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -221,11 +291,15 @@ class ClerkControllerTest {
 
         when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -237,11 +311,15 @@ class ClerkControllerTest {
 
         when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -253,11 +331,15 @@ class ClerkControllerTest {
 
         when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -272,11 +354,15 @@ class ClerkControllerTest {
 
         when(clerkService.updateClerk(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(put("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -285,11 +371,15 @@ class ClerkControllerTest {
     void testThatPartialUpdateSuccessfullyReturnsHttp200Ok() throws Exception {
         when(clerkService.partialUpdate(anyLong(), any(ClerkEntity.class))).thenReturn(anyValidUpdatedClerk());
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", BEARER + token)
                         .content(jsonClerk)
                 ).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNumber())
@@ -300,11 +390,15 @@ class ClerkControllerTest {
     void testThatPartialUpdateReturnsHttp404NotFound() throws Exception {
         when(clerkService.partialUpdate(anyLong(), any(ClerkEntity.class))).thenReturn(anyValidUpdatedClerk());
         when(clerkService.isExists(anyLong())).thenReturn(false);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(anyValidUpdatedClerk());
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isNotFound());
     }
@@ -316,11 +410,15 @@ class ClerkControllerTest {
 
         when(clerkService.partialUpdate(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -332,11 +430,15 @@ class ClerkControllerTest {
 
         when(clerkService.partialUpdate(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -348,11 +450,15 @@ class ClerkControllerTest {
 
         when(clerkService.partialUpdate(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -364,11 +470,15 @@ class ClerkControllerTest {
 
         when(clerkService.partialUpdate(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -383,11 +493,15 @@ class ClerkControllerTest {
 
         when(clerkService.partialUpdate(anyLong(), any(ClerkEntity.class))).thenReturn(clerkEntity);
         when(clerkService.isExists(anyLong())).thenReturn(true);
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         String jsonClerk = objectMapper.writeValueAsString(clerkEntity);
 
         mockMvc.perform(patch("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
                 .content(jsonClerk)
         ).andExpect(status().isBadRequest());
     }
@@ -395,16 +509,25 @@ class ClerkControllerTest {
     @Test
     void testThatDeleteClerkReturnsHttp204WhenClerkExists() throws Exception {
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class))).thenReturn(anyValidClerk());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(delete("/api/v1/clerkManagement/clerks/1")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteClerkReturnsHttp204WhenClerkDoesNotExist() throws Exception {
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
+
         mockMvc.perform(delete("/api/v1/clerkManagement/clerks/99")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 
@@ -412,16 +535,25 @@ class ClerkControllerTest {
     void testThatDeleteAllClerksOfManagerReturnsHttp204WhenManagerExists() throws Exception {
         when(clerkService.createClerk(anyLong(), anyLong(), any(ClerkEntity.class)))
                 .thenReturn(anyValidClerk());
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
 
         mockMvc.perform(delete("/api/v1/clerkManagement/managers/1/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 
     @Test
     void testThatDeleteAllClerksOfManagerReturnsHttp204WhenManagerDoesNotExist() throws Exception {
+        when(userServiceDetails.loadUserByUsername(anyString())).thenReturn(anyValidUserDetails());
+
+        String token = generateToken();
+
         mockMvc.perform(delete("/api/v1/clerkManagement/managers/99/clerks")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", BEARER + token)
         ).andExpect(status().isNoContent());
     }
 
