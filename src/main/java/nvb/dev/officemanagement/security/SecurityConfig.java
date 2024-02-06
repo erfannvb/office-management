@@ -2,7 +2,7 @@ package nvb.dev.officemanagement.security;
 
 import lombok.RequiredArgsConstructor;
 import nvb.dev.officemanagement.security.filter.JwtAuthenticationFilter;
-import nvb.dev.officemanagement.service.UserService;
+import nvb.dev.officemanagement.security.impl.UserServiceDetailsImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,7 +28,7 @@ import static nvb.dev.officemanagement.security.UserRole.USER;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final UserService userService;
+    private final UserServiceDetailsImpl userServiceDetails;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Bean
@@ -66,7 +66,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userService.userDetailsService());
+        daoAuthenticationProvider.setUserDetailsService(userServiceDetails);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         return daoAuthenticationProvider;
     }

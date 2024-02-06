@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import nvb.dev.officemanagement.security.JwtService;
-import nvb.dev.officemanagement.service.UserService;
+import nvb.dev.officemanagement.security.impl.UserServiceDetailsImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -25,7 +25,7 @@ import static nvb.dev.officemanagement.constant.SecurityConstant.BEARER;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final UserService userService;
+    private final UserServiceDetailsImpl userServiceDetails;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
+            UserDetails userDetails = userServiceDetails.loadUserByUsername(username);
 
             if (jwtService.isTokenValid(token, userDetails)) {
 
