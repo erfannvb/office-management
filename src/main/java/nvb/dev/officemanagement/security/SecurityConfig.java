@@ -54,6 +54,8 @@ public class SecurityConfig {
 
                         .requestMatchers(USER_URL).permitAll()
 
+                        .requestMatchers("/api/v1/job").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
