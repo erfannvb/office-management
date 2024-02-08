@@ -23,7 +23,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Configuration
 @EnableBatchProcessing
 @RequiredArgsConstructor
-public class BatchConfig {
+public class UserTransferBatchJob {
 
     private final UserRepository userRepository;
 
