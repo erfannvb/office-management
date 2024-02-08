@@ -1,5 +1,6 @@
 package nvb.dev.officemanagement.service;
 
+import nvb.dev.officemanagement.config.UserTransferBatchJob;
 import nvb.dev.officemanagement.exception.EntityNotFoundException;
 import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.UserEntity;
@@ -9,6 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -29,6 +35,12 @@ class UserServiceTest {
 
     @Mock
     BCryptPasswordEncoder passwordEncoder;
+
+    @Mock
+    JobLauncher jobLauncher;
+
+    @Mock
+    UserTransferBatchJob job;
 
     @InjectMocks
     UserServiceImpl userService;
@@ -167,6 +179,12 @@ class UserServiceTest {
 
         assertFalse(exists);
         verify(userRepository, atLeastOnce()).existsById(anyLong());
+    }
+
+    @Test
+    void testThatLaunchJobWorksProperly() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+        userService.launchJob();
+        verify(jobLauncher, atLeastOnce()).run(any(), any());
     }
 
 }
