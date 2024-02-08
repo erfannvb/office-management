@@ -7,6 +7,7 @@ import nvb.dev.officemanagement.model.entity.UserEntity;
 import nvb.dev.officemanagement.repository.UserRepository;
 import nvb.dev.officemanagement.service.UserService;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -91,8 +92,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void launchJob() throws JobInstanceAlreadyCompleteException,
             JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
-        jobLauncher.run(job, new JobParametersBuilder().addLong("startAt",
-                System.currentTimeMillis()).toJobParameters());
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("startAt", System.currentTimeMillis()).toJobParameters();
+        jobLauncher.run(job, jobParameters);
     }
 
 }
