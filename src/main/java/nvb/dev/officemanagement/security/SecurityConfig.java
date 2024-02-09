@@ -54,7 +54,7 @@ public class SecurityConfig {
 
                         .requestMatchers(USER_URL).permitAll()
 
-                        .requestMatchers("/api/v1/job").permitAll()
+                        .requestMatchers(JOB_URL).permitAll()
 
                         .anyRequest().authenticated()
                 )
