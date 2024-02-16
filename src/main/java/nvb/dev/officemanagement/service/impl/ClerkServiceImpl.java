@@ -2,7 +2,6 @@ package nvb.dev.officemanagement.service.impl;
 
 import lombok.AllArgsConstructor;
 import nvb.dev.officemanagement.exception.EntityNotFoundException;
-import nvb.dev.officemanagement.exception.NoDataFoundException;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
 import nvb.dev.officemanagement.model.entity.ManagerEntity;
 import nvb.dev.officemanagement.model.entity.OfficeEntity;
