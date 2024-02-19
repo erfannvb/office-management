@@ -2,6 +2,7 @@ package nvb.dev.officemanagement.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import nvb.dev.officemanagement.exception.UsernameExistsException;
 import nvb.dev.officemanagement.mapper.UserMapper;
 import nvb.dev.officemanagement.model.dto.UserDto;
 import nvb.dev.officemanagement.model.entity.UserEntity;
@@ -23,6 +24,10 @@ public class UserController {
 
     @PostMapping(path = "/users")
     public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
+        if (userService.usernameExists(userDto.getUsername())) {
+            throw new UsernameExistsException(userDto.getUsername());
+        }
+
         UserEntity userEntity = userMapper.toUserEntity(userDto);
         UserEntity savedUser = userService.createUser(userEntity);
         return new ResponseEntity<>(userMapper.toUserDto(savedUser), HttpStatus.CREATED);
