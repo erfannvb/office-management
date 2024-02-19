@@ -99,6 +99,26 @@ class UserServiceTest {
     }
 
     @Test
+    void testThatUsernameExistsReturnsTrue() {
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(anyValidUser()));
+
+        boolean usernameExists = userService.usernameExists("dummy");
+
+        assertTrue(usernameExists);
+        verify(userRepository, atLeastOnce()).findByUsername(anyString());
+    }
+
+    @Test
+    void testThatUsernameExistsReturnsFalse() {
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
+
+        boolean usernameExists = userService.usernameExists("dummy");
+
+        assertFalse(usernameExists);
+        verify(userRepository, atLeastOnce()).findByUsername(anyString());
+    }
+
+    @Test
     void testThatGetAllUsersReturnsListOfUsers() {
         when(userRepository.findAll()).thenReturn(List.of(anyValidUser(), anyValidUser()));
 
