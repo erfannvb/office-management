@@ -17,6 +17,8 @@ public interface UserService {
 
     Optional<UserEntity> getUserByUsername(String username);
 
+    boolean usernameExists(String username);
+
     List<UserEntity> getAllUsers();
 
     UserEntity updateUser(long userId, UserEntity user);

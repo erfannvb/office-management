@@ -48,6 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean usernameExists(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
+    @Override
     public List<UserEntity> getAllUsers() {
         List<UserEntity> userEntityList = userRepository.findAll();
         if (!userEntityList.isEmpty()) {
