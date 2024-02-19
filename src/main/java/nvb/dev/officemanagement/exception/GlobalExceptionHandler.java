@@ -32,6 +32,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UsernameExistsException.class)
+    public ResponseEntity<Object> handleUsernameExistsException(RuntimeException exception) {
+        ErrorResponse errorResponse = new ErrorResponse(List.of(exception.getLocalizedMessage()));
+
+        Map<String, Object> body = new HashMap<>();
+
+        body.put(TIME_STAMP, errorResponse.getTimestamp());
+        body.put(MESSAGE, errorResponse.getMessages());
+
+        return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
