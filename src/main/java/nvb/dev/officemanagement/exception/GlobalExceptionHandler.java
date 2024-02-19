@@ -44,18 +44,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ExceptionHandler(InvalidHeaderException.class)
-    public ResponseEntity<Object> handleInvalidHeaderException(RuntimeException exception) {
-        ErrorResponse errorResponse = new ErrorResponse(List.of(exception.getLocalizedMessage()));
-
-        Map<String, Object> body = new HashMap<>();
-
-        body.put(TIME_STAMP, errorResponse.getTimestamp());
-        body.put(MESSAGE, errorResponse.getMessages());
-
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
