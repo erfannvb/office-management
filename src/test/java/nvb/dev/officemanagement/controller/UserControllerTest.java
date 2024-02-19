@@ -1,5 +1,6 @@
 package nvb.dev.officemanagement.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nvb.dev.officemanagement.mapper.UserMapper;
 import nvb.dev.officemanagement.model.entity.UserEntity;
@@ -57,6 +58,19 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.username").value("dummy"))
                 .andExpect(jsonPath("$.password").value("dummy"));
+    }
+
+    @Test
+    void testThatCreateMethodReturnsHttp406NotAcceptable() throws Exception {
+        when(userService.createUser(any(UserEntity.class))).thenReturn(anyValidUser());
+        when(userService.usernameExists(anyString())).thenReturn(true);
+
+        String jsonUser = objectMapper.writeValueAsString(anyValidUser());
+
+        mockMvc.perform(post("/api/v1/userManagement/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonUser)
+        ).andExpect(status().isNotAcceptable());
     }
 
     @Test
