@@ -3,7 +3,6 @@ package nvb.dev.officemanagement.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nvb.dev.officemanagement.mapper.ClerkMapper;
 import nvb.dev.officemanagement.model.entity.ClerkEntity;
-import nvb.dev.officemanagement.model.entity.UserEntity;
 import nvb.dev.officemanagement.security.JwtService;
 import nvb.dev.officemanagement.security.impl.UserServiceDetailsImpl;
 import nvb.dev.officemanagement.service.ClerkService;
